@@ -1,0 +1,11 @@
+# global
+env/
+
+# manipulator
+migrations/
+
+# collector
+
+
+# seller
+
