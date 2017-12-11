@@ -1,4 +1,6 @@
 # harvester
+
+[![Join the chat at https://gitter.im/aforwardz-harvester/Lobby](https://badges.gitter.im/aforwardz-harvester/Lobby.svg)](https://gitter.im/aforwardz-harvester/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 专注于具体领域的中文标注收割机
 
 ## 结构
