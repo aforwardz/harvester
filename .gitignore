@@ -1,9 +1,11 @@
 # global
 env/
 .idea/
+__pycache__/
 
 # manipulator
 migrations/
+logs/
 
 # collector
 
