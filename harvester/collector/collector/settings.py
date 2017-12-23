@@ -19,7 +19,7 @@ NEWSPIDER_MODULE = 'collector.spiders'
 #USER_AGENT = 'collector (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -88,3 +88,11 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+WEBPAGE_STORAGE = 'pages'
+
+USE_BLOOM = True
+
+REDIS_HOST = '127.0.0.1'
+REDIS_DB = 7
