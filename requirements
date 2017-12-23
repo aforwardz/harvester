@@ -1,5 +1,6 @@
 django==2.0
 djangorestframework==3.7.3
 jieba==0.39
+redis==2.10.6
 scrapy==1.4.0
 ipython
