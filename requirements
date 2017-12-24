@@ -1,6 +1,7 @@
 django==2.0
 djangorestframework==3.7.3
 jieba==0.39
+psycopg2==2.7.3.2
 redis==2.10.6
 scrapy==1.4.0
 ipython

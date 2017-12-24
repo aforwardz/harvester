@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'seed'
 ]
 
 MIDDLEWARE = [
@@ -105,15 +106,13 @@ WSGI_APPLICATION = 'manipulator.wsgi.application'
 
 DATABASES = {
     'default': {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': DEFAULT_DB_NAME,
-            'USER': DEFAULT_DB_USER,
-            'PASSWORD': DEFAULT_DB_PASSWORD,
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
-        },
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': DEFAULT_DB_NAME,
+        'USER': DEFAULT_DB_USER,
+        'PASSWORD': DEFAULT_DB_PASSWORD,
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    },
 }
 
 # Media
