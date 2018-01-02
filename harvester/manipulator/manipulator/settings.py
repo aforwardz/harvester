@@ -68,7 +68,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'seed'
+    'seed',
+    'peeler'
 ]
 
 MIDDLEWARE = [
@@ -212,6 +213,9 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)s %(asctime)s %(message)s'
         },
+        'detail': {
+            'format': '[%(levelname)s] %(asctime)s %(filename)s:%(lineno)-4s: %(message)s'
+        },
     },
     'handlers': {
         'null': {
@@ -233,6 +237,12 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
             # 'filters': ['special']
+        },
+        'peeler': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/peeling_record.log',
+            'formatter': 'detail'
         }
 
     },
@@ -246,6 +256,11 @@ LOGGING = {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': False,
+        },
+        'peeler': {
+            'handlers': ['peeler', 'console'],
+            'level': 'INFO',
+            'propagate': False
         }
     }
 }
