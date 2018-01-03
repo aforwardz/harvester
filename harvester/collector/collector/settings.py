@@ -8,7 +8,9 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
+import os
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOT_NAME = 'collector'
 
 SPIDER_MODULES = ['collector.spiders']
@@ -90,7 +92,7 @@ ROBOTSTXT_OBEY = False
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 
-WEBPAGE_STORAGE = 'pages'
+WEBPAGE_STORAGE = os.path.abspath(os.path.join(BASE_DIR, '..', 'pages'))
 
 USE_BLOOM = True
 

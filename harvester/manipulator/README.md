@@ -1,6 +1,13 @@
 # manipulator
 文本标注后台，提供前端接口
 
+# 说明
+1. 训练文本
+
+文本数据的概念是以“文章”为单位，可以将其切为段落，段落可以切分为句子，句子可以切分为词
+
+也就是说到words这里，应该是一个三维list；paragraph是二维list
+
 # 文本分类
 ## 基于Sklearn
 - [使用sklearn + jieba中文分词构建文本分类器](http://myg0u.com/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/2015/05/06/use-sklearn-jieba.html)
