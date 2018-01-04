@@ -64,7 +64,8 @@ class Peeler(object):
                 content = peeler.get_value_from_selector(self.selector)
                 clean_content = self.clean_content(content)
                 print(clean_content)
-                return
+                paragraphs = list(filter(lambda x: len(x)>0, clean_content.split('\n')))
+                content_3_list = list(map(utilities.cut_paragraph_to_sentences, paragraphs))
                 seed = Seed(
                     source=peeler.source,
                     content=content,

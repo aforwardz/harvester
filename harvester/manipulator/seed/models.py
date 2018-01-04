@@ -1,5 +1,6 @@
 # coding: utf-8
 from django.db import models
+from django.contrib.postgres.fields import ArrayField, JSONField
 from seed.choices import CONTENT_TYPES
 
 # Create your models here.
@@ -39,6 +40,12 @@ class Seed(models.Model):
         choices=CONTENT_TYPES,
         blank=True,
         default=0
+    )
+
+    words = JSONField(
+        verbose_name='文本分词',
+        blank=True,
+        default={}
     )
 
     objects = SeedManager

@@ -14,6 +14,9 @@
 
 ## 基于Tensorflow
 ### 使用神经网络
+- [CNN模型](http://www.jeyzhang.com/tensorflow-learning-notes-2.html)
+- [利用TensorFlow实现卷积神经网络做文本分类](https://www.jianshu.com/p/ed3eac3dcb39)
+- [Tensorflow实现CNN文本分类](https://www.jianshu.com/p/ff8e5f4635cc)
 - [CNN与RNN中文文本分类-基于TensorFlow实现](https://gaussic.github.io/2017/08/30/text-classification-tensorflow/)
 - [在TensorFlow中实现文本分类的卷积神经网络](http://www.tensorflownews.com/2017/08/21/implementing-a-cnn-for-text-classification-in-tensorflow/)
 
