@@ -1,7 +1,7 @@
 # coding: utf-8
 from django.db import models
 from django.contrib.postgres.fields import ArrayField, JSONField
-from seed.choices import CONTENT_TYPES
+from seed.choices import CONTENT_TYPES, USAGE_TYPES
 
 # Create your models here.
 
@@ -20,10 +20,16 @@ class Seed(models.Model):
         auto_now=True
     )
     source = models.CharField(
-        verbose_name='',
+        verbose_name='数据源',
         max_length=50,
         blank=True,
         default=''
+    )
+    usage = models.CharField(
+        verbose_name='数据用途',
+        choices=USAGE_TYPES,
+        blank=True,
+        default='0'
     )
 
     content = models.TextField(
@@ -39,7 +45,7 @@ class Seed(models.Model):
         verbose_name='文本归类(大类)',
         choices=CONTENT_TYPES,
         blank=True,
-        default=0
+        default='0'
     )
 
     words = JSONField(
