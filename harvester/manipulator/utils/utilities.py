@@ -61,15 +61,15 @@ def replace_special(string, rep='~'):
 def cut_paragraph_to_sentences(paragraph):
     end_punc = '.?!。！？'
     ret = []
-    _list = []
+    sentence = ''
     for item in paragraph:
-        _list.append(item)
+        sentence += item
         if item in end_punc:
-            ret.append(_list)
-            _list = []
+            ret.append(sentence)
+            sentence = ''
     # 还需考虑句子中没有这些标点符号的case
-    if _list:
-        ret.append(_list)
+    if sentence:
+        ret.append(sentence)
     index = 0
     # 去除只包含标点符号的行
     while index < len(ret):

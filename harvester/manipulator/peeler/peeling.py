@@ -5,6 +5,7 @@ from django.conf import settings
 from django.utils.html import strip_tags
 from peeler.parser import HtmlXPathParser
 from seed.models import Seed
+from peeler.tools import cut_to_sentences_and_tokenize
 from utils import utilities
 import logging
 
@@ -47,9 +48,7 @@ class Peeler(object):
             date = str(datetime.now().date())
         page_root = os.path.abspath(os.path.join(
             settings.BASE_DIR, os.pardir, 'collector/pages'))
-        print(page_root)
         page_path = os.path.join(page_root, host, date)
-        print(page_path)
         for root, _, files in os.walk(page_path):
             logger.info(('%d files To Be Parsed In: %s/%s/' % (
                 len(files), host, date)))
@@ -64,12 +63,13 @@ class Peeler(object):
                 content = peeler.get_value_from_selector(self.selector)
                 clean_content = self.clean_content(content)
                 print(clean_content)
-                paragraphs = list(filter(lambda x: len(x)>0, clean_content.split('\n')))
-                content_3_list = list(map(utilities.cut_paragraph_to_sentences, paragraphs))
+                paragraphs = list(filter(lambda x: len(x) > 0, clean_content.split('\n')))
+                word_3_list = list(map(utilities.cut_paragraph_to_sentences, paragraphs))
                 seed = Seed(
                     source=peeler.source,
                     content=content,
                     clean_content=clean_content,
-                    content_type=1
+                    content_type=1,
+                    words={'word': word_3_list}
                 )
                 seed.save()
