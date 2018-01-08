@@ -14,6 +14,7 @@
 
 ## 基于Tensorflow
 ### 使用神经网络
+- [Understanding Convolutional Neural Networks for NLP](http://www.wildml.com/2015/11/understanding-convolutional-neural-networks-for-nlp/)
 - [CNN模型](http://www.jeyzhang.com/tensorflow-learning-notes-2.html)
 - [利用TensorFlow实现卷积神经网络做文本分类](https://www.jianshu.com/p/ed3eac3dcb39)
 - [Tensorflow实现CNN文本分类](https://www.jianshu.com/p/ff8e5f4635cc)
