@@ -43,7 +43,7 @@ class Peeler(object):
 
         return content.strip()
 
-    def start(self, host, date=''):
+    def start(self, host, date='', text_type=0):
         if not date:
             date = str(datetime.now().date())
         page_root = os.path.abspath(os.path.join(
@@ -64,12 +64,12 @@ class Peeler(object):
                 clean_content = self.clean_content(content)
                 print(clean_content)
                 paragraphs = list(filter(lambda x: len(x) > 0, clean_content.split('\n')))
-                word_3_list = list(map(utilities.cut_paragraph_to_sentences, paragraphs))
+                word_3_list = list(map(cut_to_sentences_and_tokenize, paragraphs))
                 seed = Seed(
                     source=peeler.source,
                     content=content,
                     clean_content=clean_content,
-                    content_type=1,
+                    content_type=text_type,
                     words={'word': word_3_list}
                 )
                 seed.save()

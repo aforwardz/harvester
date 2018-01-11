@@ -56,5 +56,8 @@ class Seed(models.Model):
 
     objects = SeedManager
 
+    def __str__(self):
+        return str(self.id) + '--' + self.get_content_type_display()
 
-    # word
+    class Meta:
+        verbose_name = verbose_name_plural = '种子数据'

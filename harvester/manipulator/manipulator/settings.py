@@ -117,6 +117,12 @@ DATABASES = {
     },
 }
 
+
+# Redis
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
+REDIS_DB = 2
+
 # Media
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -268,3 +274,9 @@ LOGGING = {
 
 JET_INDEX_DASHBOARD = 'jet.dashboard.dashboard.DefaultIndexDashboard'
 JET_APP_INDEX_DASHBOARD = 'jet.dashboard.dashboard.DefaultAppIndexDashboard'
+
+
+DICTIONARY_ROOT = os.path.join(BASE_DIR, 'dictionary')
+DICTIONARY = os.path.join(DICTIONARY_ROOT, 'dictionary.json')
+STOPWORDS = os.path.join(DICTIONARY_ROOT, 'stopwords.txt')
+
