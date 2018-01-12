@@ -278,5 +278,11 @@ JET_APP_INDEX_DASHBOARD = 'jet.dashboard.dashboard.DefaultAppIndexDashboard'
 
 DICTIONARY_ROOT = os.path.join(BASE_DIR, 'dictionary')
 DICTIONARY = os.path.join(DICTIONARY_ROOT, 'dictionary.json')
+RE_DICTIONARY = os.path.join(DICTIONARY_ROOT, 're_dictionary.json')
 STOPWORDS = os.path.join(DICTIONARY_ROOT, 'stopwords.txt')
+
+TENSORBOARD_PATH = os.path.join(BASE_DIR, 'tensorboard')
+
+SESSION_ROOT = os.path.join(BASE_DIR, 'models')
+SESSION_PATH = os.path.join(SESSION_ROOT, 'classify')
 

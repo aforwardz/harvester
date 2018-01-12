@@ -38,19 +38,22 @@ class DictionaryBuilder(metaclass=Singleton):
         :param queryset: 种子数据
         :return: 新词典
         """
+        word_list = []
+        for q in queryset_iterator(queryset):
+            word_list.extend(list([
+                w for w in w_l for w_l in w_2_l for w_2_l in q.words['word']
+                if not self._is_stopword(w)]))
+        counter = Counter(word_list)
+        words, _ = list(zip(*counter.most_common(
+            self.dictionary_size)))
+        del counter
+        dictionary, re_dictionary = dict(), dict()
+        for i, w in enumerate(words):
+            dictionary[w] = i + 1
+            re_dictionary[i+1] = w
         with open(settings.DICTIONARY, 'w') as f:
-            word_list = []
-            for q in queryset_iterator(queryset):
-                word_list.extend(list([
-                    w for w in w_l for w_l in w_2_l for w_2_l in q.words['word']
-                    if not self._is_stopword(w)]))
-            counter = Counter(word_list)
-            words, _ = list(zip(*counter.most_common(
-                self.dictionary_size)))
-            del counter
-            dictionary = dict()
-            for i, w in enumerate(words):
-                dictionary[i+1] = w
             json.dump(dictionary, f)
+        with open(settings.RE_DICTIONARY, 'w') as rf:
+            json.dump(re_dictionary, rf)
         print('成功字典生成！')
 
