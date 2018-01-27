@@ -54,6 +54,18 @@ class Seed(models.Model):
         default={}
     )
 
+    pos = JSONField(
+        verbose_name='',
+        null=True,
+        default={}
+    )
+
+    ner = JSONField(
+        verbose_name='',
+        null=True,
+        default={}
+    )
+
     objects = SeedManager
 
     def __str__(self):
