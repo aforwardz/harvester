@@ -283,6 +283,12 @@ STOPWORDS = os.path.join(DICTIONARY_ROOT, 'stopwords.txt')
 
 TENSORBOARD_ROOT = '/tmp/'
 
+TFRECORD_ROOT = os.path.join(BASE_DIR, 'tfrecord')
+CLASSIFY_TFRECORD = os.path.join(TFRECORD_ROOT, 'classify')
+EMBEDDING_TFRECORD = os.path.join(TFRECORD_ROOT, 'embedding')
+
 SESSION_ROOT = os.path.join(BASE_DIR, 'models')
-SESSION_PATH = os.path.join(SESSION_ROOT, 'classify')
+CLASSIFY_SESSION = os.path.join(SESSION_ROOT, 'classify')
+
+EMBEDDING_SESSION = os.path.join(SESSION_ROOT, 'embedding')
 
