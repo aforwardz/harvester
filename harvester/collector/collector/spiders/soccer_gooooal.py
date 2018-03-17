@@ -9,10 +9,15 @@ import logging
 class GooooalSpider(scrapy.Spider):
     name = 'gooooal.com'
     allowed_domains = ['gooooal.com']
+    base_url = 'http://app.gooooal.com/newslist.do?dictid={id}'
     start_urls = [
-        'http://app.gooooal.com/newslist.do?dictid=A001'
+        # 'A001',
+        'A002',
+        'A007',
+        'A0040201',
+        'A00302'
     ]
-    news_list_url = 'http://app.gooooal.com/newslist.do?dictid=A001&pageNo={page}&totalCount='
+    news_list_url = 'http://app.gooooal.com/newslist.do?dictid={id}&pageNo={page}&totalCount='
     news_url = 'http://news.gooooal.com/{nids}/{nid}.html'
     page = 1
     webpage_path = webpage_handler.create_dir(name)
@@ -20,11 +25,12 @@ class GooooalSpider(scrapy.Spider):
     main_sel = ['//div[@class="news_main"]']
 
     def start_requests(self):
-        for url in self.start_urls:
+        for did in self.start_urls:
             yield scrapy.Request(
-                url=url,
+                url=self.base_url.format(id=did),
                 dont_filter=True,
-                callback=self.parse
+                callback=self.parse,
+                meta={did: did}
             )
 
     def parse(self, response):
@@ -48,7 +54,7 @@ class GooooalSpider(scrapy.Spider):
 
         self.page += 1
         yield scrapy.Request(
-            url=self.news_list_url.format(page=self.page),
+            url=self.news_list_url.format(id=response.meta.get('did'), page=self.page),
             dont_filter=True,
             callback=self.parse
         )
