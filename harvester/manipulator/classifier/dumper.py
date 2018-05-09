@@ -6,7 +6,7 @@ import random
 import jieba
 from jieba.posseg import cut
 from django.core.cache import cache
-from news.choices import SOHU_NEWS_TYPE
+from classifier.choices import SOHU_NEWS_TYPE
 
 
 def handle_news(news_path):
@@ -46,7 +46,7 @@ def clean_news():
     stopwords = cache.get('STOPWORDS')
     print('stopwords', stopwords)
     if not stopwords:
-        with open('./nlp/corpus/stopwords.txt', 'r') as f:
+        with open('../dictionary/stopwords.txt', 'r') as f:
             stopwords_list = set()
             for line in f.readlines():
                 stopwords_list.add(line.strip('\n'))
