@@ -51,6 +51,7 @@ def clean_news():
             for line in f.readlines():
                 stopwords_list.add(line.strip('\n'))
             cache.set('STOPWORDS', stopwords_list)
+            stopwords = cache.get('STOPWORDS')
 
     news_lines, news_labels = [], []
     with open('raw_news.txt', 'r',) as t:
@@ -60,7 +61,7 @@ def clean_news():
             print(raw['title'])
             words = cut(raw['title'] + ' ' + raw['content'])
             words = filter(lambda x: x.word not in stopwords and x.flag != 'x', words)
-            words = list([w.word for w in words])[:100]
+            words = list([w.word for w in words])[:1000]
             print(words)
             news_lines.append(' '.join(words) + '\n')
             news_labels.append(raw['label'] + '\n')

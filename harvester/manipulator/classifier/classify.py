@@ -16,7 +16,7 @@ EMBEDDING_DIM = 200  # 词向量空间维度
 VALIDATION_SPLIT = 0.16  # 验证集比例
 TEST_SPLIT = 0.2  # 测试集比例
 
-NUM_WORDS = 100
+NUM_WORDS = 1000
 BATCH_SIZE = 32
 EPOCHS = 5
 
@@ -61,19 +61,19 @@ print('x_test shape:', x_test.shape)
 print('\nBuilding model...')
 model = Sequential()
 
-# # MLP
-# model.add(Dense(512, input_shape=(NUM_WORDS,)))
-# model.add(Activation('relu'))
-# model.add(Dropout(0.2))
-# model.add(Dense(labels.shape[1],))
-# model.add(Activation('softmax'))
-
-# LSTM
-model.add(Embedding(len(word_index) + 1, EMBEDDING_DIM,
-          input_length=MAX_SEQUENCE_LENGTH))
-model.add(LSTM(200, dropout=0.2, recurrent_dropout=0.2))
+# MLP
+model.add(Dense(512, input_shape=(NUM_WORDS,)))
+model.add(Activation('relu'))
 model.add(Dropout(0.2))
-model.add(Dense(labels.shape[1], activation='softmax'))
+model.add(Dense(labels.shape[1],))
+model.add(Activation('softmax'))
+
+# # LSTM
+# model.add(Embedding(len(word_index) + 1, EMBEDDING_DIM,
+#           input_length=MAX_SEQUENCE_LENGTH))
+# model.add(LSTM(200, dropout=0.2, recurrent_dropout=0.2))
+# model.add(Dropout(0.2))
+# model.add(Dense(labels.shape[1], activation='softmax'))
 
 model.summary()
 

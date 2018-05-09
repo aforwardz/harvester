@@ -8,6 +8,9 @@
 
 也就是说到words这里，应该是一个三维list；paragraph是二维list
 
+# 搜狗新闻语料
+链接: https://pan.baidu.com/s/1iaim_cNX8RBAc_hXWLDXIg 密码: asmp
+
 # 文本分类
 ## 基于Sklearn
 - [使用sklearn + jieba中文分词构建文本分类器](http://myg0u.com/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/2015/05/06/use-sklearn-jieba.html)
