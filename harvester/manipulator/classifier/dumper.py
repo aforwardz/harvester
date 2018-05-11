@@ -62,6 +62,8 @@ def clean_news():
             words = cut(raw['title'] + ' ' + raw['content'])
             words = filter(lambda x: x.word not in stopwords and x.flag != 'x', words)
             words = list([w.word for w in words])[:1000]
+            if len(words) <= 80:
+                continue
             print(words)
             news_lines.append(' '.join(words) + '\n')
             news_labels.append(raw['label'] + '\n')

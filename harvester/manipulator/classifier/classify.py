@@ -9,6 +9,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.layers import LSTM, Embedding
 from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
 from keras.utils import to_categorical
 
 MAX_SEQUENCE_LENGTH = 100  # 每条新闻最大长度
@@ -25,21 +26,19 @@ print('Loading data...')
 news_texts = []
 label_texts = []
 with open('../news.txt', 'r') as n:
-    for line in n.readlines():
-        news_texts.append(line.strip('\n'))
+    news_texts.extend(list([line.strip('\n') for line in n.readlines()]))
 with open('../news_label.txt', 'r') as label:
-    for line in label.readlines():
-        label_texts.append(line.strip('\n'))
+    label_texts.extend(list([line.strip('\n') for line in label.readlines()]))
 
 print('Vectorizing sequence data...')
-tokenizer = Tokenizer(num_words=NUM_WORDS)
+tokenizer = Tokenizer()
 tokenizer.fit_on_texts(news_texts)
 sequences = tokenizer.texts_to_sequences(news_texts)
 
 word_index = tokenizer.word_index
 print('Found %s unique tokens.' % len(word_index))
 print('Sequence length: ', len(sequences))
-data = tokenizer.sequences_to_matrix(sequences, mode='tfidf')
+data = tokenizer.sequences_to_matrix(sequences, mode='binary')
 labels = to_categorical(np.asarray(label_texts))
 print('Shape of data tensor:', data.shape)
 print('Shape of label tensor:', labels.shape)
@@ -62,9 +61,9 @@ print('\nBuilding model...')
 model = Sequential()
 
 # MLP
-model.add(Dense(512, input_shape=(NUM_WORDS,)))
+model.add(Dense(512, input_shape=(len(word_index)+1,)))
 model.add(Activation('relu'))
-model.add(Dropout(0.2))
+model.add(Dropout(0.5))
 model.add(Dense(labels.shape[1],))
 model.add(Activation('softmax'))
 
