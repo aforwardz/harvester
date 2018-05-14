@@ -5,6 +5,7 @@ import json
 import random
 import jieba
 from jieba.posseg import cut
+from collections import Counter
 from django.core.cache import cache
 from classifier.choices import SOHU_NEWS_TYPE
 
@@ -77,3 +78,30 @@ def clean_news():
         print(len(news_labels))
         f_news_label.writelines(news_labels)
 
+def drop_news():
+    with open('news_label.txt', 'r') as l:
+        l_lines = l.readlines()
+        wc = Counter(l_lines)
+        for key in wc.keys():
+            if wc[key] <= 8000:
+                wc[key] = 1
+            else:
+                wc[key] = 8000 / wc[key]
+        with open('news.txt', 'r') as n:
+            n_lines = n.readlines()
+            assert len(n_lines) == len(l_lines)
+            new_label_lines, new_news_lines = [], []
+            for i, j in zip(l_lines, n_lines):
+                if random.random() <= wc[i]:
+                    print(i, 'reserved')
+                    new_label_lines.append(i)
+                    new_news_lines.append(j)
+
+            assert len(new_label_lines) == len(new_news_lines), 'not matched'
+            with open('dropped_news.txt', 'w') as f_news:
+                print(len(new_news_lines))
+                f_news.writelines(new_news_lines)
+
+            with open('dropped_news_label.txt', 'w') as f_news_label:
+                print(len(new_label_lines))
+                f_news_label.writelines(new_label_lines)
