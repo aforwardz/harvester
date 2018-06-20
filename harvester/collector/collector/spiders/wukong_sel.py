@@ -4,6 +4,7 @@ import json
 import csv
 from datetime import datetime
 import time
+import scrapy
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -16,6 +17,7 @@ class WukongSelSpider(object):
     def __init__(self):
         self.home_url = 'https://www.wukong.com/'
         self.driver = None
+        self.answer_dict = {}
 
     def scroll_down(self):
         self.driver.implicitly_wait(2)
@@ -59,6 +61,22 @@ class WukongSelSpider(object):
             time.sleep(1)
         finally:
             self.driver.quit()
+
+    def crawl_answsers(self):
+        with open('wukong_faq.csv', 'r') as f:
+            reader = csv.reader(f, dialect='excel', delimiter=',')
+            for line in reader:
+                q = line[0]
+                link = line[1]
+                yield scrapy.Request(
+                    url=link,
+                    dont_filter=True,
+                    callback=self.parse,
+                    meta={'question': q}
+                )
+
+    def parse(self, response):
+        answers = response.xpath('//div[@class="answer-text-full rich-text"]')
 
 
 if __name__ == '__main__':
