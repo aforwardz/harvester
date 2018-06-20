@@ -13,6 +13,7 @@ tensorboard/
 # collector
 harvester/collector/corpus/*
 !harvester/collector/corpus/README.md
+*.log
 pages/
 
 # seller
