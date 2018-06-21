@@ -30,3 +30,6 @@
 
 # Word2Vec
 - [implement word2vec embedding in tensorflow](https://towardsdatascience.com/learn-word2vec-by-implementing-it-in-tensorflow-45641adaf2ac)
+
+# NER
+- [当RNN神经网络遇上NER（命名实体识别）：双向LSTM，条件随机场（CRF），层叠Stack LSTM， 字母嵌入](http://nooverfit.com/wp/%E5%BD%93rnn%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E9%81%87%E4%B8%8Aner%EF%BC%88%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB%EF%BC%89%EF%BC%9A%E5%8F%8C%E5%90%91lstm%EF%BC%8C%E6%9D%A1%E4%BB%B6/)
