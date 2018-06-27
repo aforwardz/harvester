@@ -51,7 +51,7 @@ class WukongSelSpider(scrapy.Spider):
     def start_requests(self):
         self.driver = webdriver.Firefox()
         print('create driver')
-        self.driver.get(self.fund)
+        self.driver.get(self.hongkong)
         try:
             # caijing = WebDriverWait(self.driver, 20).until(
             #     EC.presence_of_element_located((By.XPATH, '//a/span[text()="财经"]'))
@@ -98,19 +98,6 @@ class WukongSelSpider(scrapy.Spider):
                     meta={'question': question}
                 )
 
-    def crawl_answsers(self):
-        with open('wukong_faq.csv', 'r') as f:
-            reader = csv.reader(f, dialect='excel', delimiter=',')
-            for line in reader:
-                q = line[0]
-                link = line[1]
-                scrapy.Request(
-                    url=link,
-                    dont_filter=True,
-                    callback=self.parse,
-                    meta={'question': q}
-                )
-
     def parse(self, response):
         logging.info('| Now --%s-- spider is crawling the site: %s' % (
             self.name, response.url
@@ -129,7 +116,7 @@ class WukongSelSpider(scrapy.Spider):
         self.faq_list.append(faq)
 
         if len(self.faq_list) >= 1000:
-            with open('wukong_fund_faq_' + str(self.count) + '_.csv', 'w', newline='') as f:
+            with open('wukong_faq_' + str(self.count) + '.csv', 'w', newline='') as f:
                 writer = csv.writer(f, dialect='excel', delimiter=',')
                 writer.writerows(self.faq_list)
             self.count += 1
@@ -137,7 +124,7 @@ class WukongSelSpider(scrapy.Spider):
 
     def close(self, spider, reason):
         if len(self.faq_list):
-            with open('wukong_fund_faq_' + str(self.count) + '_.csv', 'w', newline='') as f:
+            with open('wukong_faq_' + str(self.count) + '.csv', 'w', newline='') as f:
                 writer = csv.writer(f, dialect='excel', delimiter=',')
                 writer.writerows(self.faq_list)
             self.count += 1
