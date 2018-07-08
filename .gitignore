@@ -2,6 +2,7 @@
 env/
 .idea/
 __pycache__/
+.DS_Store
 
 # manipulator
 migrations/
