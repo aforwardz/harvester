@@ -20,4 +20,5 @@ admin.site.site_header = '「Harvester」'
 urlpatterns = [
     path(r'jet/', include(('jet.urls', 'jet'), 'jet')),
     path('admin/', admin.site.urls),
+    path('nlp/', include('nlp.urls'))
 ]
