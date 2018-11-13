@@ -45,7 +45,8 @@ else:
     DEBUG = True
 
     ALLOWED_HOSTS = [
-        '127.0.0.1'
+        '127.0.0.1',
+        '127.0.0.1:8080'
     ]
 
     DEFAULT_DB_NAME = 'harvester'
@@ -54,6 +55,17 @@ else:
 
     EMAIL_HOST_USER = ''
     EMAIL_HOST_PASSWORD = ''
+
+    USER_SESSION_EXPIRE = 30 * 60
+
+    CORS_ORIGIN_ALLOW_ALL = False
+    CORS_ALLOW_CREDENTIALS = True
+    CORS_ORIGIN_WHITELIST = (
+        'localhost',
+        '127.0.0.1:8080'
+    )
+
+    SESSION_COOKIE_HTTPONLY = False
 
 
 # Application definition
@@ -75,6 +87,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

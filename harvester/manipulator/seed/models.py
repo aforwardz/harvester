@@ -27,6 +27,7 @@ class Seed(models.Model):
     )
     usage = models.CharField(
         verbose_name='数据用途',
+        max_length=10,
         choices=USAGE_TYPES,
         blank=True,
         default='0'
@@ -43,6 +44,7 @@ class Seed(models.Model):
 
     content_type = models.CharField(
         verbose_name='文本归类(大类)',
+        max_length=10,
         choices=CONTENT_TYPES,
         blank=True,
         default='0'

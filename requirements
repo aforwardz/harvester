@@ -1,5 +1,6 @@
 django==2.0
 djangorestframework==3.7.3
+django-cors-headers==2.2.0
 jieba==0.39
 keras
 numpy
