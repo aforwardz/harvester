@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Cut from '@/components/cut'
+import Label from '@/components/label'
+import Keyword from '@/components/keyword'
+import Classify from '@/components/classify'
+import Ner from '@/components/ner'
 
 Vue.use(Router)
 
@@ -9,8 +13,28 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
+      name: 'Cut',
+      component: Cut
+    },
+    {
+      path: '/label',
+      name: 'Label',
+      component: Label
+    },
+    {
+      path: '/keyword',
+      name: 'Keyword',
+      component: Keyword
+    },
+    {
+      path: '/classify',
+      name: 'Classify',
+      component: Classify
+    },
+    {
+      path: '/ner',
+      name: 'Ner',
+      component: Ner
+    },
   ]
 })
