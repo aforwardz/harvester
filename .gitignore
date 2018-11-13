@@ -7,6 +7,7 @@ __pycache__/
 # manipulator
 migrations/
 logs/
+corpus/
 
 models/
 tensorboard/
@@ -18,4 +19,5 @@ harvester/collector/corpus/*
 pages/
 
 # seller
+package-lock.json
 

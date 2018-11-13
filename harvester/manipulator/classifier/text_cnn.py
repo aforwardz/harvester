@@ -1,10 +1,79 @@
+import numpy as np
+import csv
+import itertools
+from collections import Counter
 from keras.layers import Input, Dense, Embedding, Conv2D, MaxPool2D
 from keras.layers import Reshape, Flatten, Dropout, Concatenate
 from keras.callbacks import ModelCheckpoint
 from keras.optimizers import Adam
 from keras.models import Model
 from sklearn.model_selection import train_test_split
-from data_helpers import load_data
+
+
+def load_data_and_labels(file):
+    """
+    Loads polarity data from files, splits the data into words and generates labels.
+    Returns split sentences and labels.
+    """
+    # Split by words
+    x_text, y = [], []
+    with open(file, 'r') as f:
+        reader = csv.reader(f, dialect='excel', delimiter=',')
+        for line in reader:
+            x_text.append(eval(line[2]))
+            y.append(eval(line[3]))
+    return x_text, y
+
+
+def pad_sentences(sentences, padding_word="<PAD/>"):
+    """
+    Pads all sentences to the same length. The length is defined by the longest sentence.
+    Returns padded sentences.
+    """
+    sequence_length = max(len(x) for x in sentences)
+    padded_sentences = []
+    for i, sentence in enumerate(sentences):
+        sentence.extend([padding_word] * (sequence_length - len(sentence)))
+        padded_sentences.append(sentence)
+    return padded_sentences
+
+
+def build_vocab(sentences):
+    """
+    Builds a vocabulary mapping from word to index based on the sentences.
+    Returns vocabulary mapping and inverse vocabulary mapping.
+    """
+    # Build vocabulary
+    word_counts = Counter(itertools.chain(*sentences))
+    # Mapping from index to word
+    vocabulary_inv = [x[0] for x in word_counts.most_common()]
+    vocabulary_inv = list(sorted(vocabulary_inv))
+    # Mapping from word to index
+    vocabulary = {x: i for i, x in enumerate(vocabulary_inv)}
+    return vocabulary, vocabulary_inv
+
+
+def build_input_data(sentences, labels, vocabulary):
+    """
+    Maps sentences and labels to vectors based on a vocabulary.
+    """
+    x = np.array([[vocabulary[word] for word in sentence] for sentence in sentences])
+    y = np.array(labels)
+    return [x, y]
+
+
+def load_data():
+    """
+    Loads and preprocessed data for the dataset.
+    Returns input vectors, labels, vocabulary, and inverse vocabulary.
+    """
+    # Load and preprocess data
+    sentences, labels = load_data_and_labels('../corpus/tax_data.csv')
+    sentences_padded = pad_sentences(sentences)
+    vocabulary, vocabulary_inv = build_vocab(sentences_padded)
+    x, y = build_input_data(sentences_padded, labels, vocabulary)
+    return x, y, vocabulary, vocabulary_inv
+
 
 print('Loading data')
 x, y, vocabulary, vocabulary_inv = load_data()
@@ -15,6 +84,8 @@ x, y, vocabulary, vocabulary_inv = load_data()
 # len(vocabulary_inv) -> 18765
 
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+print('Train Data Shape: ', X_train.shape, '\nTrain Label Shape: ', y_train.shape,
+      '\nTest Data Shape: ', X_test.shape, '\nTest Label Shape: ', y_test.shape)
 
 # X_train.shape -> (8529, 56)
 # y_train.shape -> (8529, 2)
@@ -52,7 +123,7 @@ maxpool_2 = MaxPool2D(pool_size=(sequence_length - filter_sizes[2] + 1, 1), stri
 concatenated_tensor = Concatenate(axis=1)([maxpool_0, maxpool_1, maxpool_2])
 flatten = Flatten()(concatenated_tensor)
 dropout = Dropout(drop)(flatten)
-output = Dense(units=2, activation='softmax')(dropout)
+output = Dense(units=26, activation='softmax')(dropout)
 
 # this creates a model that includes
 model = Model(inputs=inputs, outputs=output)
