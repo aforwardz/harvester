@@ -1,18 +1,18 @@
 <template>
-  <div id="app">
-    <!--<router-view/>-->
-    <div class="main-container">
-      <div class="menu-container">
-
-      </div>
-      <div class=""></div>
-    </div>
-  </div>
+  <!--<router-view/>-->
+  <component :is="menu">
+    <router-view :menu.sync="menu"/>
+  </component>
 </template>
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  data() {
+    return {
+      menu: 'div',
+    };
+  },
 }
 </script>
 
