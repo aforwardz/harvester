@@ -8,6 +8,8 @@ __pycache__/
 migrations/
 logs/
 corpus/
+private_settings.py
+dictionary/
 
 models/
 tensorboard/

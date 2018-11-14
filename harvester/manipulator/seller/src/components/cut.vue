@@ -9,7 +9,8 @@
         </div>
       </div>
       <div class="result-container" v-loading="loading">
-        <div class="sentence-item" v-for="word_list in sentence_list">
+        <div class="sentence-item" v-for="(word_list, index) in sentence_list">
+          <div class="sentence-index">{{index + 1}}.</div>
           <div class="word-item" v-for="word in word_list">
             <span :class="'word ' + word.pos">{{word.word}}</span>
             <span class="pos">{{word.pos_n}}</span>
@@ -32,9 +33,7 @@ export default {
     return {
       loading: false,
       content: '',
-      sentence_list: [[{'word': '你', 'pos': 'n', 'pos_n': '名词'}, {'word': '怎么', 'pos': 'j', 'pos_n': '连词'},
-      {'word': '肥四', 'pos': 'v', 'pos_n': '动词'}, {'word': '小老弟', 'pos': 'n', 'pos_n': '名词'},
-      {'word': '？', 'pos': 'x', 'pos_n': '符号'}]]
+      sentence_list: []
     }
   },
   methods: {
@@ -91,19 +90,26 @@ export default {
     width: 90%;
     height: 50%;
     display: flex;
+    flex-direction: column;
+  }
+  .sentence-index {
+    height: 38px;
+    margin: 12px 2px 0 0;
   }
   .sentence-item {
     width: 100%;
     display: flex;
+    margin: 10px 0;
+    flex-wrap: wrap;
   }
   .word-item {
-    height: 20px;
+    height: 38px;
     display: flex;
-    margin: 1px 6px;
+    margin: 5px 6px;
     flex-direction: column;
   }
   .word {
-    height: 40px;
+    height: 22px;
     padding: 0 1px;
     text-align: center;
     font-weight: 500;
@@ -114,7 +120,7 @@ export default {
     background-color: #2ca9e1;
   }
   .word.nr {
-    background-color: #e6b422;
+    background-color: #38b48b;
   }
   .word.v {
     background-color: #ea5506;
@@ -123,112 +129,109 @@ export default {
     background-color: #6b7b6e;
   }
   .word.nt {
-    background-color: #6b7b6e;
+    background-color: #705b67;
   }
   .word.nz {
-    background-color: #6b7b6e;
+    background-color: #ec6d71;
   }
   .word.a {
-    background-color: #6b7b6e;
+    background-color: #c3d825;
   }
   .word.ad {
-    background-color: #6b7b6e;
+    background-color: #f6ad49;
   }
   .word.ag {
-    background-color: #6b7b6e;
+    background-color: #f08300;
   }
   .word.an {
-    background-color: #6b7b6e;
+    background-color: #007bbb;
   }
   .word.b {
-    background-color: #6b7b6e;
+    background-color: #b7282e;
   }
   .word.c {
-    background-color: #6b7b6e;
+    background-color: #d9333f;
   }
   .word.d {
-    background-color: #6b7b6e;
+    background-color: #954e2a;
   }
   .word.df {
-    background-color: #6b7b6e;
+    background-color: #852e19;
   }
   .word.e {
-    background-color: #6b7b6e;
+    background-color: #b0ca71;
   }
   .word.f {
-    background-color: #6b7b6e;
+    background-color: #ae7c4f;
   }
   .word.j {
-    background-color: #6b7b6e;
+    background-color: #e8d3c7;
   }
   .word.l {
-    background-color: #6b7b6e;
+    background-color: #8491c3;
   }
   .word.m {
-    background-color: #6b7b6e;
+    background-color: #00a381;
   }
   .word.nrt {
-    background-color: #6b7b6e;
+    background-color: #5383c3;
   }
   .word.nrtg {
-    background-color: #6b7b6e;
+    background-color: #5383c3;
   }
   .word.ng {
-    background-color: #6b7b6e;
+    background-color: #dccb18;
   }
   .word.o {
-    background-color: #6b7b6e;
+    background-color: #6f4b3e;
   }
   .word.p {
-    background-color: #6b7b6e;
+    background-color: #b28c6e;
   }
   .word.q {
-    background-color: #6b7b6e;
+    background-color: #e95295;
   }
   .word.r {
-    background-color: #6b7b6e;
+    background-color: #00a3af;
   }
   .word.rr {
-    background-color: #6b7b6e;
+    background-color: #a59aca;
   }
   .word.rz {
-    background-color: #6b7b6e;
+    background-color: #65318e;
   }
   .word.t {
-    background-color: #6b7b6e;
+    background-color: #00552e;
   }
   .word.u {
-    background-color: #6b7b6e;
+    background-color: #ee836f;
   }
   .word.uv {
-    background-color: #6b7b6e;
+    background-color: #df7163;
   }
   .word.ui {
-    background-color: #6b7b6e;
+    background-color: #bb5548;
   }
   .word.un {
-    background-color: #6b7b6e;
-  }
-  .word.uv {
-    background-color: #6b7b6e;
+    background-color: #e0c38c;
   }
   .word.x {
     background-color: #6b7b6e;
   }
   .word.y {
-    background-color: #6b7b6e;
+    background-color: #3eb370;
   }
   .word.z {
-    background-color: #6b7b6e;
+    background-color: #afafb0;
   }
   .word.w {
-    background-color: #6b7b6e;
+    background-color: #888084;
   }
   .word.eng {
-    background-color: #6b7b6e;
+    background-color: #93b69c;
   }
   .word.yg {
-    background-color: #6b7b6e;
+    background-color: #e5e4e6;
   }
   .pos {
     height: 16px;

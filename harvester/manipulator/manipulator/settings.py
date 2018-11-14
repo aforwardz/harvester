@@ -33,29 +33,6 @@ if hostname == 'aforwardz':
         'aforwardz.com'
     ]
 
-    from harvester import private_settings
-    DEFAULT_DB_NAME = private_settings.DEFAULT_DB_NAME
-    DEFAULT_DB_USER = private_settings.DEFAULT_DB_USER
-    DEFAULT_DB_PASSWORD = private_settings.DEFAULT_DB_PASSWORD
-
-    EMAIL_HOST_USER = private_settings.EMAIL_HOST_USER
-    EMAIL_HOST_PASSWORD = private_settings.EMAIL_HOST_PASSWORD
-
-else:
-    DEBUG = True
-
-    ALLOWED_HOSTS = [
-        '127.0.0.1',
-        '127.0.0.1:8080'
-    ]
-
-    DEFAULT_DB_NAME = 'harvester'
-    DEFAULT_DB_USER = 'harvester'
-    DEFAULT_DB_PASSWORD = '666666'
-
-    EMAIL_HOST_USER = ''
-    EMAIL_HOST_PASSWORD = ''
-
     USER_SESSION_EXPIRE = 30 * 60
 
     CORS_ORIGIN_ALLOW_ALL = False
@@ -66,6 +43,36 @@ else:
     )
 
     SESSION_COOKIE_HTTPONLY = False
+
+else:
+    DEBUG = True
+
+    ALLOWED_HOSTS = [
+        '127.0.0.1',
+        '127.0.0.1:8080',
+        '127.0.0.1:8081',
+    ]
+
+    USER_SESSION_EXPIRE = 30 * 60
+
+    CORS_ORIGIN_ALLOW_ALL = False
+    CORS_ALLOW_CREDENTIALS = True
+    CORS_ORIGIN_WHITELIST = (
+        'localhost',
+        '127.0.0.1:8080',
+        '127.0.0.1:8081',
+    )
+
+    SESSION_COOKIE_HTTPONLY = False
+
+
+from manipulator import private_settings
+DEFAULT_DB_NAME = private_settings.DEFAULT_DB_NAME
+DEFAULT_DB_USER = private_settings.DEFAULT_DB_USER
+DEFAULT_DB_PASSWORD = private_settings.DEFAULT_DB_PASSWORD
+
+EMAIL_HOST_USER = private_settings.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = private_settings.EMAIL_HOST_PASSWORD
 
 
 # Application definition
