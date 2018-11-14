@@ -1,5 +1,6 @@
 import numpy as np
 import csv
+import json
 import itertools
 from collections import Counter
 from keras.layers import Input, Dense, Embedding, Conv2D, MaxPool2D
@@ -50,6 +51,8 @@ def build_vocab(sentences):
     vocabulary_inv = list(sorted(vocabulary_inv))
     # Mapping from word to index
     vocabulary = {x: i for i, x in enumerate(vocabulary_inv)}
+    with open('../dictionary/tax_dict.json', 'w') as f:
+        json.dump(vocabulary, f)
     return vocabulary, vocabulary_inv
 
 
@@ -78,19 +81,9 @@ def load_data():
 print('Loading data')
 x, y, vocabulary, vocabulary_inv = load_data()
 
-# x.shape -> (10662, 56)
-# y.shape -> (10662, 2)
-# len(vocabulary) -> 18765
-# len(vocabulary_inv) -> 18765
-
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 print('Train Data Shape: ', X_train.shape, '\nTrain Label Shape: ', y_train.shape,
       '\nTest Data Shape: ', X_test.shape, '\nTest Label Shape: ', y_test.shape)
-
-# X_train.shape -> (8529, 56)
-# y_train.shape -> (8529, 2)
-# X_test.shape -> (2133, 56)
-# y_test.shape -> (2133, 2)
 
 
 sequence_length = x.shape[1]  # 56
