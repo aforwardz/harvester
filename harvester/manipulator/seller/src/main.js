@@ -18,8 +18,8 @@ if (process.env.NODE_ENV === 'development'){
   Vue.prototype.ADMIN_BASE = 'http://127.0.0.1:8000/admin/'
 }
 else {
-  Vue.prototype.API_BASE = 'http://aforwardz.com/';
-  Vue.prototype.ADMIN_BASE = 'http://aforwardz.com/admin/'
+  Vue.prototype.API_BASE = 'http://45.76.74.126/';
+  Vue.prototype.ADMIN_BASE = 'http://45.76.74.126/admin/'
 }
 
 /* eslint-disable no-new */

@@ -26,11 +26,12 @@ SECRET_KEY = 'y4q0b%c6u*^06p%e!+pgy94d6qjl__v3@eypyc)x9blih98%10'
 import socket
 hostname = socket.gethostname()
 
-if hostname == 'aforwardz':
+if hostname == 'Aforwardz':
     DEBUG = False
 
     ALLOWED_HOSTS = [
-        'aforwardz.com'
+        'aforwardz.com',
+        '45.76.74.126'
     ]
 
     USER_SESSION_EXPIRE = 30 * 60
@@ -39,7 +40,8 @@ if hostname == 'aforwardz':
     CORS_ALLOW_CREDENTIALS = True
     CORS_ORIGIN_WHITELIST = (
         'localhost',
-        '127.0.0.1:8080'
+        '127.0.0.1',
+        '45.76.74.126'
     )
 
     SESSION_COOKIE_HTTPONLY = False
