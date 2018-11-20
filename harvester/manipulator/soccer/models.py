@@ -1,18 +1,9 @@
 # coding: utf-8
 from django.db import models
 from django.contrib.postgres.fields import ArrayField, JSONField
-from soccer.choices import (
-    GENDER,
-    AWARD,
-    AWARD_GRADE,
-    FIELD
-)
+from soccer import choices
 
 # Create your models here.
-
-
-class Club(models.Model):
-    pass
 
 
 class Award(models.Model):
@@ -27,12 +18,12 @@ class Award(models.Model):
 
     award_name = models.CharField(
         verbose_name='奖项名称',
-        choices=AWARD,
+        choices=choices.AWARD,
         default='0'
     )
     award_grade = models.CharField(
         verbose_name='获奖级别',
-        choices=AWARD_GRADE,
+        choices=choices.AWARD_GRADE,
         default='0'
     )
     award_season = models.CharField(
@@ -46,7 +37,49 @@ class Award(models.Model):
     )
 
 
+class League(models.Model):
+    create_time = models.DateTimeField(
+        verbose_name='创建时间',
+        auto_now_add=True
+    )
+    update_time = models.DateTimeField(
+        verbose_name='更新时间',
+        auto_now=True
+    )
+
+
+class Club(models.Model):
+    create_time = models.DateTimeField(
+        verbose_name='创建时间',
+        auto_now_add=True
+    )
+    update_time = models.DateTimeField(
+        verbose_name='更新时间',
+        auto_now=True
+    )
+
+
+class NationTeam(models.Model):
+    create_time = models.DateTimeField(
+        verbose_name='创建时间',
+        auto_now_add=True
+    )
+    update_time = models.DateTimeField(
+        verbose_name='更新时间',
+        auto_now=True
+    )
+
+
 class Person(models.Model):
+    create_time = models.DateTimeField(
+        verbose_name='创建时间',
+        auto_now_add=True
+    )
+    update_time = models.DateTimeField(
+        verbose_name='更新时间',
+        auto_now=True
+    )
+
     name = models.CharField(
         verbose_name='名字',
         max_length=50
@@ -59,7 +92,8 @@ class Person(models.Model):
     en_name = models.CharField(
         verbose_name='英文名',
         max_length=100,
-        blank=True
+        blank=True,
+        default=''
     )
     nick_name = ArrayField(
         models.CharField,
@@ -68,21 +102,35 @@ class Person(models.Model):
     )
     gender = models.CharField(
         verbose_name='性别',
-        choices=GENDER,
+        choices=choices.GENDER,
         default='0'
+    )
+    height = models.FloatField(
+        verbose_name='身高',
+        blank=True,
+        null=True
     )
     birth = models.DateField(
         verbose_name='出生日期',
-        blank=True
+        blank=True,
+        null=True
     )
     age = models.PositiveIntegerField(
         verbose_name='年龄',
-        blank=True
+        blank=True,
+        null=True
     )
-    nation = models.CharField(
+    avatar = models.URLField(
+        verbose_name='头像',
+        blank=True,
+        null=True
+    )
+    nationality = models.CharField(
         verbose_name='国籍',
         max_length=20,
-        blank=True
+        choices=choices.NATION,
+        blank=True,
+        null=True
     )
 
     class Meta:
@@ -90,6 +138,64 @@ class Person(models.Model):
 
 
 class Player(Person):
+    club = models.ForeignKey(
+        Club,
+        verbose_name='俱乐部',
+        related_name='players',
+        on_delete=models.SET_NULL
+    )
+    foot = models.CharField(
+        verbose_name='',
+        max_length=10,
+        choices=choices.FOOT,
+        blank=True,
+        default='-'
+    )
+    field = models.CharField(
+        verbose_name='角色',
+        choices=choices.FIELD,
+        default='-'
+    )
+    positions = ArrayField(
+        models.CharField,
+        verbose_name='位置',
+        blank=True
+    )
+    number = models.IntegerField(
+        verbose_name='号码',
+        blank=True,
+        null=True
+    )
+
+    price = models.FloatField(
+        verbose_name='身价(欧元)',
+        blank=True,
+        null=True
+    )
+    joined = models.DateField(
+        verbose_name='加盟日期',
+        blank=True,
+        null=True,
+    )
+    contract_util = models.DateField(
+        verbose_name='合同截止日期',
+        blank=True,
+        null=True
+    )
+
+    nation_team = models.ForeignKey(
+        NationTeam,
+        verbose_name='国家队',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class PlayRecord(models.Model):
     create_time = models.DateTimeField(
         verbose_name='创建时间',
         auto_now_add=True
@@ -99,19 +205,80 @@ class Player(Person):
         auto_now=True
     )
 
-    current_club = models.ForeignKey(
+
+class Coach(Person):
+    club = models.OneToOneField(
         Club,
-        verbose_name='当前所在俱乐部',
+        verbose_name='俱乐部',
+        related_name='coach',
         on_delete=models.SET_NULL
     )
-    field = models.CharField(
-        verbose_name='角色',
-        choices=FIELD,
-        default='0'
+
+    def __str__(self):
+        return self.name
+
+
+class TeachRecord(models.Model):
+    create_time = models.DateTimeField(
+        verbose_name='创建时间',
+        auto_now_add=True
     )
-    positions = ArrayField(
-        models.CharField,
-        verbose_name='位置',
-        blank=True
+    update_time = models.DateTimeField(
+        verbose_name='更新时间',
+        auto_now=True
     )
 
+
+class Game(models.Model):
+    create_time = models.DateTimeField(
+        verbose_name='创建时间',
+        auto_now_add=True
+    )
+    update_time = models.DateTimeField(
+        verbose_name='更新时间',
+        auto_now=True
+    )
+
+
+class GamePerformance(models.Model):
+    create_time = models.DateTimeField(
+        verbose_name='创建时间',
+        auto_now_add=True
+    )
+    update_time = models.DateTimeField(
+        verbose_name='更新时间',
+        auto_now=True
+    )
+
+
+class LeaguePerformance(models.Model):
+    create_time = models.DateTimeField(
+        verbose_name='创建时间',
+        auto_now_add=True
+    )
+    update_time = models.DateTimeField(
+        verbose_name='更新时间',
+        auto_now=True
+    )
+
+
+class NationPerformance(models.Model):
+    create_time = models.DateTimeField(
+        verbose_name='创建时间',
+        auto_now_add=True
+    )
+    update_time = models.DateTimeField(
+        verbose_name='更新时间',
+        auto_now=True
+    )
+
+
+class LeagueData(models.Model):
+    create_time = models.DateTimeField(
+        verbose_name='创建时间',
+        auto_now_add=True
+    )
+    update_time = models.DateTimeField(
+        verbose_name='更新时间',
+        auto_now=True
+    )
