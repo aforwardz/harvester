@@ -7,35 +7,40 @@ from collector.utils.utilities import BloomInstance
 import json
 
 
-def create_dir(folder_name):
+def create_dir(folder_name, suffix=None):
     path = os.path.join(settings.WEBPAGE_STORAGE, folder_name)
     if not os.path.exists(path):
         os.makedirs(path)
-    webpage_path = os.path.join(path, str(datetime.now().date()))
+    if not suffix:
+        webpage_path = os.path.join(path, str(datetime.now().date()))
+    else:
+        webpage_path = os.path.join(path, suffix)
     if not os.path.exists(webpage_path):
         os.makedirs(webpage_path)
     return webpage_path
 
 
-def save(response, webpage_path):
-    hash_md5 = hashlib.md5()
-    hash_md5.update(response.url.encode())
-    webpage_name = hash_md5.hexdigest()
+def save(response, webpage_path, page_name=None):
+    if not page_name:
+        hash_md5 = hashlib.md5()
+        hash_md5.update(response.url.encode())
+        page_name = hash_md5.hexdigest()
     data = dict(
         html=response.text,
         url=response.url
     )
-    with open(os.path.join(webpage_path, webpage_name), 'w') as f:
+    with open(os.path.join(webpage_path, page_name), 'w') as f:
         json.dump(data, f)
-    return webpage_name
+    return page_name
 
 
-def save_webpage(response, webpage_path, selectors, use_bloom=settings.USE_BLOOM):
+def save_webpage(response, webpage_path, selectors, page_name=None, use_bloom=settings.USE_BLOOM):
     """
     对传入的对象进行判重，重复的跳过，不重复的保存
     :param response: response 对象
     :param webpage_path: 保存路径
     :param selectors: 判重用的选择器
+    :param page_name: 保存的文件名
     :param use_bloom: 是否使用布隆过滤器
     :return: False代表不存在
     """
@@ -60,7 +65,7 @@ def save_webpage(response, webpage_path, selectors, use_bloom=settings.USE_BLOOM
             return False
         else:           # 如果不存在则添加并保存
             bf.insert(content_hash, settings.REDIS_DB)
-            return save(response, webpage_path)
+            return save(response, webpage_path, page_name=page_name)
     else:
-        return save(response, webpage_path)
+        return save(response, webpage_path, page_name=page_name)
 
