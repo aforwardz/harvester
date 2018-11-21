@@ -37,7 +37,7 @@ class Award(models.Model):
     )
 
 
-class League(models.Model):
+class Competition(models.Model):
     create_time = models.DateTimeField(
         verbose_name='创建时间',
         auto_now_add=True
@@ -47,8 +47,41 @@ class League(models.Model):
         auto_now=True
     )
 
+    name = models.CharField(
+        verbose_name='赛事名称',
+        max_length=50,
+        blank=True
+    )
 
-class Club(models.Model):
+    short_name = models.CharField(
+        verbose_name='赛事简称',
+        max_length=30,
+        blank=True,
+        default=''
+    )
+
+    en_name = models.CharField(
+        verbose_name='赛事英文名称',
+        max_length=100,
+        blank=True,
+        default=''
+    )
+
+    nation = models.CharField(
+        verbose_name='赛事国别',
+        max_length=30,
+        blank=True
+    )
+
+    season = models.CharField(
+        verbose_name='赛季',
+        max_length=30,
+        blank=True,
+        null=True
+    )
+
+
+class Team(models.Model):
     create_time = models.DateTimeField(
         verbose_name='创建时间',
         auto_now_add=True
@@ -58,15 +91,50 @@ class Club(models.Model):
         auto_now=True
     )
 
-
-class NationTeam(models.Model):
-    create_time = models.DateTimeField(
-        verbose_name='创建时间',
-        auto_now_add=True
+    name = models.CharField(
+        verbose_name='名称',
+        max_length=50,
+        blank=True
     )
-    update_time = models.DateTimeField(
-        verbose_name='更新时间',
-        auto_now=True
+
+    short_name = models.CharField(
+        verbose_name='简称',
+        max_length=30,
+        blank=True,
+        default=''
+    )
+
+    en_name = models.CharField(
+        verbose_name='英文名称',
+        max_length=100,
+        blank=True,
+        default=''
+    )
+
+    attr = models.CharField(
+        verbose_name='性质',
+        max_length=30,
+        choices=choices.TEAM_ATTR,
+        blank=True
+    )
+
+    level = models.CharField(
+        verbose_name='级别',
+        max_length=30,
+        blank=True,
+        null=True
+    )
+
+    nation = models.CharField(
+        verbose_name='赛事国别',
+        max_length=30,
+        blank=True
+    )
+
+    competitions = models.ManyToManyField(
+        Competition,
+        verbose_name='赛事',
+        related_name='teams',
     )
 
 
@@ -138,9 +206,17 @@ class Person(models.Model):
 
 class Player(Person):
     club = models.ForeignKey(
-        Club,
+        Team,
         verbose_name='俱乐部',
         related_name='players',
+        null=True,
+        on_delete=models.SET_NULL
+    )
+    nation_team = models.ForeignKey(
+        Team,
+        verbose_name='国家队',
+        related_name='players',
+        null=True,
         on_delete=models.SET_NULL
     )
     foot = models.CharField(
@@ -182,14 +258,6 @@ class Player(Person):
         null=True
     )
 
-    nation_team = models.ForeignKey(
-        NationTeam,
-        verbose_name='国家队',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL
-    )
-
     def __str__(self):
         return self.name
 
@@ -228,7 +296,7 @@ class TeachRecord(models.Model):
     )
 
 
-class Game(models.Model):
+class Match(models.Model):
     create_time = models.DateTimeField(
         verbose_name='创建时间',
         auto_now_add=True
@@ -239,7 +307,7 @@ class Game(models.Model):
     )
 
 
-class GamePerformance(models.Model):
+class PlayerMatchPerformance(models.Model):
     create_time = models.DateTimeField(
         verbose_name='创建时间',
         auto_now_add=True
@@ -250,7 +318,7 @@ class GamePerformance(models.Model):
     )
 
 
-class LeaguePerformance(models.Model):
+class PlayerCompetitionPerformance(models.Model):
     create_time = models.DateTimeField(
         verbose_name='创建时间',
         auto_now_add=True
@@ -261,7 +329,7 @@ class LeaguePerformance(models.Model):
     )
 
 
-class NationPerformance(models.Model):
+class PlayerNationPerformance(models.Model):
     create_time = models.DateTimeField(
         verbose_name='创建时间',
         auto_now_add=True
@@ -272,7 +340,7 @@ class NationPerformance(models.Model):
     )
 
 
-class LeagueData(models.Model):
+class CompetitionData(models.Model):
     create_time = models.DateTimeField(
         verbose_name='创建时间',
         auto_now_add=True
