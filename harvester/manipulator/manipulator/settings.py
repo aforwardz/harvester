@@ -90,7 +90,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'seed',
-    'peeler'
+    'peeler',
+    'soccer'
 ]
 
 MIDDLEWARE = [
