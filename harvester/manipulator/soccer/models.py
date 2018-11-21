@@ -128,7 +128,6 @@ class Person(models.Model):
     nationality = models.CharField(
         verbose_name='国籍',
         max_length=20,
-        choices=choices.NATION,
         blank=True,
         null=True
     )
