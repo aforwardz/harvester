@@ -18,11 +18,13 @@ class Award(models.Model):
 
     award_name = models.CharField(
         verbose_name='奖项名称',
+        max_length=10,
         choices=choices.AWARD,
         default='0'
     )
     award_grade = models.CharField(
         verbose_name='获奖级别',
+        max_length=10,
         choices=choices.AWARD_GRADE,
         default='0'
     )
@@ -35,6 +37,12 @@ class Award(models.Model):
         verbose_name='获奖日期',
         blank=True
     )
+
+    def __str__(self):
+        return self.award_name
+
+    class Meta:
+        verbose_name = verbose_name_plural = '奖项'
 
 
 class Competition(models.Model):
@@ -79,6 +87,12 @@ class Competition(models.Model):
         blank=True,
         null=True
     )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = verbose_name_plural = '赛事'
 
 
 class Team(models.Model):
@@ -131,11 +145,36 @@ class Team(models.Model):
         blank=True
     )
 
+    class Meta:
+        abstract = True
+
+
+class Club(Team):
     competitions = models.ManyToManyField(
         Competition,
         verbose_name='赛事',
-        related_name='teams',
+        related_name='clubs',
     )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = verbose_name_plural = '俱乐部'
+
+
+class NationTeam(Team):
+    competitions = models.ManyToManyField(
+        Competition,
+        verbose_name='赛事',
+        related_name='nations',
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = verbose_name_plural = '国家队'
 
 
 class Person(models.Model):
@@ -153,9 +192,10 @@ class Person(models.Model):
         max_length=50
     )
     alias = ArrayField(
-        models.CharField,
+        models.CharField(max_length=50),
         verbose_name='别名',
-        blank=True
+        blank=True,
+        default=[]
     )
     en_name = models.CharField(
         verbose_name='英文名',
@@ -164,17 +204,19 @@ class Person(models.Model):
         default=''
     )
     nick_name = ArrayField(
-        models.CharField,
+        models.CharField(max_length=50),
         verbose_name='昵称',
-        blank=True
+        blank=True,
+        default=[]
     )
     gender = models.CharField(
         verbose_name='性别',
+        max_length=5,
         choices=choices.GENDER,
         default='0'
     )
-    height = models.FloatField(
-        verbose_name='身高',
+    height = models.PositiveIntegerField(
+        verbose_name='身高(CM)',
         blank=True,
         null=True
     )
@@ -206,21 +248,21 @@ class Person(models.Model):
 
 class Player(Person):
     club = models.ForeignKey(
-        Team,
+        Club,
         verbose_name='俱乐部',
         related_name='players',
         null=True,
         on_delete=models.SET_NULL
     )
     nation_team = models.ForeignKey(
-        Team,
+        NationTeam,
         verbose_name='国家队',
         related_name='players',
         null=True,
         on_delete=models.SET_NULL
     )
     foot = models.CharField(
-        verbose_name='',
+        verbose_name='惯用脚',
         max_length=10,
         choices=choices.FOOT,
         blank=True,
@@ -228,13 +270,15 @@ class Player(Person):
     )
     field = models.CharField(
         verbose_name='角色',
+        max_length=10,
         choices=choices.FIELD,
         default='-'
     )
     positions = ArrayField(
-        models.CharField,
+        models.CharField(max_length=10, choices=choices.POSITION),
         verbose_name='位置',
-        blank=True
+        blank=True,
+        default=[]
     )
     number = models.IntegerField(
         verbose_name='号码',
@@ -242,8 +286,8 @@ class Player(Person):
         null=True
     )
 
-    price = models.FloatField(
-        verbose_name='身价(欧元)',
+    price = models.PositiveIntegerField(
+        verbose_name='身价(万欧元)',
         blank=True,
         null=True
     )
@@ -261,6 +305,9 @@ class Player(Person):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = verbose_name_plural = '球员'
+
 
 class PlayRecord(models.Model):
     create_time = models.DateTimeField(
@@ -272,17 +319,35 @@ class PlayRecord(models.Model):
         auto_now=True
     )
 
+    def __str__(self):
+        return ''
+
+    class Meta:
+        verbose_name = verbose_name_plural = '效力记录'
+
 
 class Coach(Person):
-    club = models.OneToOneField(
+    coach_club = models.OneToOneField(
         Club,
         verbose_name='俱乐部',
         related_name='coach',
+        null=True,
+        on_delete=models.SET_NULL
+    )
+
+    coach_nation = models.OneToOneField(
+        NationTeam,
+        verbose_name='俱乐部',
+        related_name='coach',
+        null=True,
         on_delete=models.SET_NULL
     )
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = verbose_name_plural = '教练'
 
 
 class TeachRecord(models.Model):
@@ -295,6 +360,12 @@ class TeachRecord(models.Model):
         auto_now=True
     )
 
+    def __str__(self):
+        return ''
+
+    class Meta:
+        verbose_name = verbose_name_plural = '执教记录'
+
 
 class Match(models.Model):
     create_time = models.DateTimeField(
@@ -306,8 +377,14 @@ class Match(models.Model):
         auto_now=True
     )
 
+    def __str__(self):
+        return ''
 
-class PlayerMatchPerformance(models.Model):
+    class Meta:
+        verbose_name = verbose_name_plural = '比赛'
+
+
+class PlayerPerformance(models.Model):
     create_time = models.DateTimeField(
         verbose_name='创建时间',
         auto_now_add=True
@@ -317,27 +394,11 @@ class PlayerMatchPerformance(models.Model):
         auto_now=True
     )
 
+    def __str__(self):
+        return ''
 
-class PlayerCompetitionPerformance(models.Model):
-    create_time = models.DateTimeField(
-        verbose_name='创建时间',
-        auto_now_add=True
-    )
-    update_time = models.DateTimeField(
-        verbose_name='更新时间',
-        auto_now=True
-    )
-
-
-class PlayerNationPerformance(models.Model):
-    create_time = models.DateTimeField(
-        verbose_name='创建时间',
-        auto_now_add=True
-    )
-    update_time = models.DateTimeField(
-        verbose_name='更新时间',
-        auto_now=True
-    )
+    class Meta:
+        verbose_name = verbose_name_plural = '球员表现'
 
 
 class CompetitionData(models.Model):
@@ -349,3 +410,9 @@ class CompetitionData(models.Model):
         verbose_name='更新时间',
         auto_now=True
     )
+
+    def __str__(self):
+        return ''
+
+    class Meta:
+        verbose_name = verbose_name_plural = '赛事数据'
