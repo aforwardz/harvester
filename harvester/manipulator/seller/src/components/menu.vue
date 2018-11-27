@@ -2,7 +2,7 @@
   <div class="manipulator-container">  <!--菜单容器-->
     <nav class="manipulator nav">
         <el-menu
-        :default-active="activeIndex2"
+        :default-active="activeMenu"
         class="el-menu"
         mode="horizontal"
         @select="handleSelect"
@@ -26,8 +26,8 @@
           <el-menu-item index="2-1">
             <router-link to="/label" class="route-link" tag="div" exact-active-class="menu-active">标注</router-link>
           </el-menu-item>
-          <el-menu-item index="2-2">足球图谱</el-menu-item>
-          <el-menu-item index="2-3">刷脸</el-menu-item>
+          <el-menu-item index="2-2" disabled>足球图谱</el-menu-item>
+          <el-menu-item index="2-3" disabled>刷脸</el-menu-item>
         </el-submenu>
         <el-menu-item index="3" disabled>学习</el-menu-item>
         <el-menu-item index="4" disabled>扯淡</el-menu-item>
@@ -43,11 +43,17 @@
 </template>
 <script>
   export default {
-    name: `Manipulator`,
+    name: 'Manipulator',
     data() {
       return {
         user: null,
+        activeMenu: '1'
       };
+    },
+    methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+      }
     },
     created() {
       // Simulate fetching user data.
@@ -88,6 +94,7 @@
     width: 80%;
     display: flex;
     justify-content: space-around;
+    opacity: 0.9;
   }
   .main {
     width: 100%;
