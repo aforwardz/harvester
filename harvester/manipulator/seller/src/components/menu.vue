@@ -1,23 +1,37 @@
 <template>
   <div class="manipulator-container">  <!--菜单容器-->
     <nav class="manipulator nav">
-      <div class="navbar">
-        <div class="route-item">
-          <router-link to="/" class="route-link" tag="div" exact-active-class="menu-active">分词</router-link>
-        </div>
-        <div class="route-item">
-          <router-link to="/label" class="route-link" tag="div" exact-active-class="menu-active">标注</router-link>
-        </div>
-        <div class="route-item">
-          <router-link to="/keyword" class="route-link" tag="div" exact-active-class="menu-active">关键词</router-link>
-        </div>
-        <div class="route-item">
-          <router-link to="/classify" class="route-link" tag="div" exact-active-class="menu-active">文本分类</router-link>
-        </div>
-        <div class="route-item">
-          <router-link to="/ner" class="route-link" tag="div" exact-active-class="menu-active">实体识别</router-link>
-        </div>
-      </div>
+        <el-menu
+        :default-active="activeIndex2"
+        class="el-menu"
+        mode="horizontal"
+        @select="handleSelect"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b">
+        <el-submenu index="1">
+          <template slot="title">NLP</template>
+          <el-menu-item index="1-1">
+            <router-link to="/" class="route-link" tag="div" exact-active-class="menu-active">分词</router-link>
+          </el-menu-item>
+          <el-menu-item index="1-2">
+            <router-link to="/classify" class="route-link" tag="div" exact-active-class="menu-active">文本分类</router-link>
+          </el-menu-item>
+          <el-menu-item index="1-3">
+            <router-link to="/ner" class="route-link" tag="div" exact-active-class="menu-active">实体识别</router-link>
+          </el-menu-item>
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title">工具</template>
+          <el-menu-item index="2-1">
+            <router-link to="/label" class="route-link" tag="div" exact-active-class="menu-active">标注</router-link>
+          </el-menu-item>
+          <el-menu-item index="2-2">足球图谱</el-menu-item>
+          <el-menu-item index="2-3">刷脸</el-menu-item>
+        </el-submenu>
+        <el-menu-item index="3" disabled>学习</el-menu-item>
+        <el-menu-item index="4" disabled>扯淡</el-menu-item>
+      </el-menu>
     </nav>
     <main class="manipulator main">
       <slot/>
@@ -59,47 +73,25 @@
     background-size: cover;
     font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
     z-index: -1;
-    display: inline-flex;
+    display: inline-block;
     /*overflow-y: scroll;*/
   }
   /*.manipulator-container {*/
     /*height: 100%;*/
   /*}*/
   .nav {
-    width: 25%;
-    height: 100%;
+    width: 100%;
+    /*height: 2rem;*/
     display: flex;
   }
-  .navbar {
-    width: 60%;
-    margin: auto;
-    display: inline-flex;
-    flex-direction: column;
-    background-color: rgba(255, 255, 255, .8);
-    opacity: 0.8;
-    border-radius: 10px;
-    height: 60%;
-    justify-content: space-around;
-    align-items: center;
-  }
-  .route-item {
+  .el-menu {
     width: 80%;
-    padding: 2px 0 ;
-    margin: auto;
-    color: gray;
-    font-size: large;
-  }
-  .route-link {
-    text-align: center;
-  }
-  .menu-active {
-    background-color: gray;
-    color: blue;
-    opacity: 0.7;
+    display: flex;
+    justify-content: space-around;
   }
   .main {
-    width: 90%;
-    height: 80%;
-    margin: auto;
+    width: 100%;
+    /*height: 80%;*/
+    margin: 2rem 5% 5% auto;
   }
 </style>
