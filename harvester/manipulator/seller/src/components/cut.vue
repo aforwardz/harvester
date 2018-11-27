@@ -63,7 +63,7 @@ export default {
     border-radius: 20px;
   }
   .content-input-container {
-    margin-top: 5rem;
+    margin-top: 2rem;
     height: 80px;
     display: flex;
   }
@@ -79,8 +79,6 @@ export default {
     margin: auto;
   }
   .submit {
-    /*width: 60%;*/
-    /*height: 100%;*/
     background-color: lightblue;
     border-radius: 8px;
     color: hotpink;
