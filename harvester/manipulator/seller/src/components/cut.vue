@@ -63,39 +63,45 @@ export default {
     border-radius: 20px;
   }
   .content-input-container {
-    margin-top: 2rem;
+    /*margin-top: 2rem;*/
     height: 80px;
     display: flex;
   }
   .input-container {
-    width: 60%;
     margin: auto;
+    height: auto;
     border-radius: 10px;
+  }
+  .el-textarea {
+    width: 60%;
   }
   .cut-button-container {
     width: 10%;
+    height: auto;
     margin: auto;
   }
-  .submit {
-    background-color: lightblue;
-    border-radius: 8px;
+  .el-button--primary {
     color: hotpink;
+    background-color: lightblue;
+    width: 100%;
   }
   .result-container {
     margin: 3rem auto;
     width: 90%;
-    height: 50%;
+    height: auto;
     display: flex;
     flex-direction: column;
+    background-color: rgba(255, 255, 255, .8);
+    border-radius: 15px;
   }
   .sentence-index {
     height: 38px;
     margin: 12px 2px 0 0;
   }
   .sentence-item {
-    width: 100%;
+    width: 95%;
     display: flex;
-    margin: 10px 0;
+    margin: 10px auto;
     flex-wrap: wrap;
   }
   .word-item {

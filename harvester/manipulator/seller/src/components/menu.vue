@@ -84,7 +84,7 @@
     font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
     z-index: -1;
     display: inline-block;
-    /*overflow-y: scroll;*/
+    overflow-y: auto;
   }
   /*.manipulator-container {*/
     /*height: 100%;*/
@@ -100,6 +100,7 @@
     justify-content: space-around;
     opacity: 0.9;
     border-right: solid 1px rgb(230, 230, 230);
+    position: absolute;
   }
   .user {
     width: 20%;

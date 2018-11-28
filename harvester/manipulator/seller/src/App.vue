@@ -30,7 +30,7 @@ export default {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background: url('https://c8.staticflickr.com/2/1614/23932828839_a242a8c831_b.jpg') center center no-repeat fixed;
+  background: url('./assets/backgroud.jpg') center center no-repeat fixed;
   background-size: cover;
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   z-index: -1;
