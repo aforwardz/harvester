@@ -350,7 +350,7 @@ class Coach(Person):
         verbose_name = verbose_name_plural = '教练'
 
 
-class TeachRecord(models.Model):
+class CoachRecord(models.Model):
     create_time = models.DateTimeField(
         verbose_name='创建时间',
         auto_now_add=True
