@@ -1,14 +1,15 @@
 <template>
   <Manipulator name="Manipulator">
     <div class="cut-container">
-      <h1>分词</h1>
       <div class="content-input-container">
+        <h1>分词</h1>
         <el-input v-model="content" class="input-container" type="textarea" placeholder="请输入内容"></el-input>
         <div class="cut-button-container">
           <el-button class="submit" type="primary" @click="cutContent">分词</el-button>
         </div>
       </div>
-      <div class="result-container" v-loading="loading">
+    </div>
+    <div class="result-container" v-show="sentence_list.length > 0" v-loading="loading">
         <div class="sentence-item" v-for="(word_list, index) in sentence_list">
           <div class="sentence-index">{{index + 1}}.</div>
           <div class="word-item" v-for="word in word_list">
@@ -17,7 +18,6 @@
           </div>
         </div>
       </div>
-    </div>
   </Manipulator>
 </template>
 
@@ -53,7 +53,7 @@ export default {
 
 <style>
   h1 {
-    /*margin: 10px 10px;*/
+    margin: 16px 0 0 10px;
   }
   .cut-container {
     width: 90%;
@@ -68,14 +68,12 @@ export default {
     display: flex;
   }
   .input-container {
-    height: 50%;
     width: 60%;
     margin: auto;
     border-radius: 10px;
   }
   .cut-button-container {
     width: 10%;
-    height: 40%;
     margin: auto;
   }
   .submit {

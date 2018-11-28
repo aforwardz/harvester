@@ -32,6 +32,10 @@
         <el-menu-item index="3" disabled>学习</el-menu-item>
         <el-menu-item index="4" disabled>扯淡</el-menu-item>
       </el-menu>
+      <div class="user">
+        <div class="user-info" v-if="user">{{user.name}}</div>
+        <div class="login" v-else>登录</div>
+      </div>
     </nav>
     <main class="manipulator main">
       <slot/>
@@ -59,7 +63,7 @@
       // Simulate fetching user data.
       setTimeout(() => {
         this.user = { name: 'Aforwardz' };
-      }, 2000);
+      }, 200);
   },
   };
 </script>
@@ -87,18 +91,38 @@
   /*}*/
   .nav {
     width: 100%;
-    /*height: 2rem;*/
     display: flex;
+    margin-bottom: 3rem;
   }
   .el-menu {
     width: 80%;
     display: flex;
     justify-content: space-around;
     opacity: 0.9;
+    border-right: solid 1px rgb(230, 230, 230);
+  }
+  .user {
+    width: 20%;
+    display: flex;
+    background-color: rgb(84, 92, 100);
+    opacity: 0.9;
+    border-left: 1px whitesmoke;
+    border-bottom: solid 1px #e6e6e6;
+  }
+  .user-info {
+    margin: auto;
   }
   .main {
     width: 100%;
     /*height: 80%;*/
     margin: 2rem 5% 5% auto;
+  }
+  .footer {
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    justify-content: center;
+    width: 100%;
+    color: #c8c2be;
   }
 </style>
