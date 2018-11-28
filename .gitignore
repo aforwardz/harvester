@@ -3,6 +3,8 @@ env/
 .idea/
 __pycache__/
 .DS_Store
+*.conf
+*.ini
 
 # manipulator
 migrations/
