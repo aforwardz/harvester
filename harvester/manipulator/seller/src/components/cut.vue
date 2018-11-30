@@ -63,7 +63,7 @@ export default {
     border-radius: 20px;
   }
   .content-input-container {
-    /*margin-top: 2rem;*/
+    margin-top: 6rem;
     height: 80px;
     display: flex;
   }
