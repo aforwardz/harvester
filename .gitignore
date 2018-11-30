@@ -12,6 +12,8 @@ logs/
 corpus/
 private_settings.py
 dictionary/
+static/
+static_deployment/
 
 models/
 tensorboard/

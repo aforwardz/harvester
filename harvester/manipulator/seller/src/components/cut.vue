@@ -72,15 +72,16 @@ export default {
     height: auto;
     border-radius: 10px;
   }
-  .el-textarea {
+  .content-input-container .el-textarea {
     width: 60%;
+    height: auto;
   }
-  .cut-button-container {
+  .content-input-container .cut-button-container {
     width: 10%;
     height: auto;
     margin: auto;
   }
-  .el-button--primary {
+  .cut-button-container .el-button--primary {
     color: hotpink;
     background-color: lightblue;
     width: 100%;
