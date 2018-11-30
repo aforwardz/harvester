@@ -19,3 +19,13 @@ class ContentCutView(APIView):
                                         'pos_n': JIEBA_POS_DICT.get(word.flag, '未知')}
                                        for word in cut(sentence)]))
         return Response({'data': result_2_list, 'status': 200})
+
+
+class ContentNerView(APIView):
+    http_method_names = ('post',)
+
+    def post(self, request):
+        content = request.data.get('content')
+        sentences = content.split('\n')
+        result_2_list = []
+        return Response({'data': result_2_list, 'status': 200})

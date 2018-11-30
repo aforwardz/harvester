@@ -12,7 +12,7 @@ from processor.preprocess import transform_text
 # 设置日志
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
-DIMENSION = 64
+DIMENSION = 100
 
 # # 准备数据：现有8条文本数据，将8条文本数据放入到list中
 # documents = ["1)键盘是用于操作设备运行的一种指令和数据输入装置，也指经过系统安排操作一台机器或设备的一组功能键（如打字机、电脑键盘）",
@@ -117,14 +117,16 @@ DIMENSION = 64
 
 def train():
     documents = []
+
     with open('/home/ycw/tax_data.csv', 'r') as f:
         reader = csv.reader(f, dialect='excel', delimiter=',')
         for line in reader:
             print(line)
             word_list = transform_text(line[1].strip(), strip=False)
-            documents.append(doc2vec.TaggedDocument(word_list, [line[0]]))
+            # word_list = eval(line[2])
+            documents.append(doc2vec.LabeledSentence(word_list, [line[0]]))
 
-    model = Doc2Vec(documents, dm=1, size=DIMENSION, window=5, min_count=2, workers=10)
+    model = Doc2Vec(documents, dm=1, size=DIMENSION, window=5, negative=5, min_count=2, workers=4)
     model.save('../models/doc2vec.model')
 
     indexer = AnnoyIndexer(model, 2)
@@ -136,14 +138,18 @@ def predict(text):
     model = doc2vec.Doc2Vec.load('../models/doc2vec.model')
     indexer = AnnoyIndexer()
     indexer.load('../models/dv_index')
-    # indexer.model = model
+    indexer.model = model
     # print(indexer.labels)
+    new_vec = []
+    for word in transform_text(text, strip=False):
+        new_vec.append(model[word])
+    print(new_vec)
     sv = model.infer_vector(transform_text(text, strip=False))
-    # print(sv)
+    print(sv)
     print(indexer.most_similar(sv, 2))
 
 
 if __name__ == "__main__":
-    test = '外籍人士有哪些税收优惠'
+    test = '股票是否需要缴纳个人所得税'
     # train()
     predict(test)

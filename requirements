@@ -3,6 +3,7 @@ djangorestframework==3.7.3
 django-cors-headers==2.2.0
 jieba==0.39
 keras
+neo4j
 numpy
 pandas
 psycopg2==2.7.3.2

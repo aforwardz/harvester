@@ -8,7 +8,7 @@ rclient = redis.Redis(db=0)
 
 def transform_text(text, strip=True, limit=None, join=False):
     if strip:
-        stopwords = rclient.hget('STOPWORDS')
+        stopwords = rclient.get('STOPWORDS')
         if not stopwords:
             with open('../corpus/stopwords.txt', 'r') as f:
                 stopwords_set = set()
