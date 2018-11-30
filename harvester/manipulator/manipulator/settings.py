@@ -26,12 +26,12 @@ SECRET_KEY = 'y4q0b%c6u*^06p%e!+pgy94d6qjl__v3@eypyc)x9blih98%10'
 import socket
 hostname = socket.gethostname()
 
-if hostname == 'Aforwardz':
+if hostname == 'little-old-brother':
     DEBUG = False
 
     ALLOWED_HOSTS = [
-        'aforwardz.com',
-        '45.76.74.126'
+        'little-old-brother.cn',
+        '106.15.224.45'
     ]
 
     USER_SESSION_EXPIRE = 30 * 60
@@ -41,7 +41,7 @@ if hostname == 'Aforwardz':
     CORS_ORIGIN_WHITELIST = (
         'localhost',
         '127.0.0.1',
-        '45.76.74.126'
+        '106.15.224.45'
     )
 
     SESSION_COOKIE_HTTPONLY = False
@@ -211,21 +211,6 @@ STATICFILES_DIRS = (
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_deployment')
 
-
-if not DEBUG:
-    ADMINS = (
-        ('yucongwei', 'yucongwei@aforwardz.com'),
-    )
-    SERVER_EMAIL = 'god@aforwardz.com'
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.mxhichina.com'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
-DEFAULT_FROM_EMAIL = 'Harvester <{}>'.format(EMAIL_HOST_USER)
-
 # Log
 LOG_DIR = os.path.join(BASE_DIR, 'logs')
 if not os.path.exists(LOG_DIR):
@@ -315,3 +300,18 @@ CLASSIFY_SESSION = os.path.join(SESSION_ROOT, 'classify')
 
 EMBEDDING_SESSION = os.path.join(SESSION_ROOT, 'embedding')
 
+
+# E-mail
+if not DEBUG:
+    ADMINS = [
+        ('yutiancai', 'aforwardz@kindlepusher.cn'),
+    ]
+    SERVER_EMAIL = 'god@kindlepusher.cn'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.exmail.qq.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+DEFAULT_FROM_EMAIL = 'Harvester <{}>'.format(EMAIL_HOST_USER)

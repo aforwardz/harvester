@@ -89,17 +89,18 @@
   /*.manipulator-container {*/
     /*height: 100%;*/
   /*}*/
-  .nav {
-    width: 100%;
-    display: flex;
-    margin-bottom: 3rem;
-  }
   .el-menu {
     width: 80%;
     display: flex;
     justify-content: space-around;
     opacity: 0.9;
     border-right: solid 1px rgb(230, 230, 230);
+    position: absolute;
+  }
+  .nav {
+    width: 100%;
+    display: flex;
+    margin-bottom: 3rem;
     position: absolute;
   }
   .user {
