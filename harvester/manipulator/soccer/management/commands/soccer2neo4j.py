@@ -12,11 +12,15 @@ class Command(BaseCommand):
 
     def add_competition(self, tx, obj):
         tx.run("MERGE (nation:Nation{name:$n_name}) "
-               "MERGE (comp:Competition{name:$c_name}) SET n+= {short_name:$short_name, en_name:$en_name}",
+               "MERGE (comp:Competition{name:$c_name}) SET comp+= {short_name:$short_name, en_name:$en_name} "
+               "MERGE (comp) -[:BELONG_TO]-> (nation)",
                n_name=obj.nation, c_name=obj.name, short_name=obj.short_name, en_name=obj.en_name)
 
     def add_club(self, tx, obj):
-        tx.run("MERGE (title:Title{id:$title_id})", title_id=obj.id)
+        tx.run("MERGE (nation:Nation{name:$n_name}) "
+               "MERGE (club:Club{name:$c_name}) SET club+= "
+               "{short_name:$short_name, en_name:$en_name, }",
+               title_id=obj.id)
 
     def add_nation_team(self, tx, obj):
         tx.run("MERGE (title:Title{id:$title_id})", title_id=obj.id)

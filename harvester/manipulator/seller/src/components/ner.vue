@@ -54,13 +54,12 @@ export default {
 <style>
   .ner-container {
     width: 90%;
-    margin: auto;
+    margin: 6rem auto 0 auto;
     height: 100%;
     background-color: rgba(255, 255, 255, .8);
     border-radius: 20px;
   }
   .ner-input-container {
-    margin-top: 6rem;
     height: 80px;
     display: flex;
   }
