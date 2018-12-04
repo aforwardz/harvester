@@ -35,13 +35,34 @@ class Command(BaseCommand):
                n_name=obj.nation, c_name=obj.name)
 
     def add_player(self, tx, obj):
-        tx.run("MERGE (title:Title{id:$title_id})", title_id=obj.id)
+        cypher = "MERGE (pl:Player{name:%s}) SET pl+={alias:%s, en_name:%s, nick_name:%s, gender:%s, height:%d, " \
+                 "birth:%s, age:%d, foot:%s, field:%s, positions:%s, number:%d, price:%d, joined:%s, " \
+                 "contract_util:%s} " % (obj.name, str(obj.alias), obj.en_name, obj.nick_name, obj.get_gender_display(),
+                                         obj.height, obj.birth.strftime('%Y-%m-%d'), obj.age, obj.foot, obj.field,
+                                         str(obj.positions), obj.number, obj.price, obj.joined.strftime('%Y-%m-%d'),
+                                         obj.contract_util.strftime('%Y-%m-%d'))
+        if obj.nationality:
+            cypher += "MERGE (nation:Nation{name:%s}) MERGE (player) -[:BORN_IN]-> (nation) " % obj.nationality
+        if obj.club:
+            cypher += "MERGE (club:Club{name:%s}) MERGE (player) -[:PLAY_FOR]-> (club) " % obj.club.name
+        if obj.nation_team:
+            cypher += "MERGE (nt:NationTeam{name:%s}) MERGE (player) -[:PLAY_FOR]-> (nt) " % obj.nation_team.name
+        tx.run(cypher)
 
     def add_coach(self, tx, obj):
-        tx.run("MERGE (title:Title{id:$title_id})", title_id=obj.id)
+        cypher = "MERGE (coach:Coach{name:%s}) SET coach+={alias:%s, en_name:%s, nick_name:%s, gender:%s, height:%d, " \
+                 "birth:%s, age:%d} " % (obj.name, str(obj.alias), obj.en_name, obj.nick_name, obj.get_gender_display(),
+                                         obj.height, obj.birth.strftime('%Y-%m-%d'), obj.age)
+        if obj.nationality:
+            cypher += "MERGE (nation:Nation{name:%s}) MERGE (coach) -[:BORN_IN]-> (nation) " % obj.nationality
+        if obj.club:
+            cypher += "MERGE (club:Club{name:%s}) MERGE (coach) -[:COACH_FOR]-> (club) " % obj.club.name
+        if obj.nation_team:
+            cypher += "MERGE (nt:NationTeam{name:%s}) MERGE (coach) -[:COACH_FOR]-> (nt) " % obj.nation_team.name
+        tx.run(cypher)
 
     def add_match(self, tx, obj):
-        tx.run("MERGE (title:Title{id:$title_id})", title_id=obj.id)
+        pass
 
     def handle(self, *args, **options):
         self._start_session()
@@ -76,6 +97,3 @@ class Command(BaseCommand):
             print('IMPORT COACH %s' % q.name)
             self.session.write_transaction(self.add_coach, q)
 
-        for q in queryset_iterator(match_qs):
-            print('IMPORT MATCH %s' % q.name)
-            self.session.write_transaction(self.add_match, q)
