@@ -11,18 +11,23 @@ class Command(BaseCommand):
         self.session = driver.session()
 
     def add_competition(self, tx, obj):
-        tx.run("MERGE (nation:Nation{name:$n_name}) "
-               "MERGE (comp:Competition{name:$c_name}) SET comp+= {short_name:$short_name, en_name:$en_name} "
-               "MERGE (comp) -[:BELONG_TO]-> (nation)",
-               n_name=obj.nation, c_name=obj.name, short_name=obj.short_name, en_name=obj.en_name)
+        comp_data = {}
+        if obj.short_name:
+            comp_data['short_name'] = obj.short_name
+        if obj.en_name:
+            comp_data['en_name'] = obj.en_name
+            
+        tx.run("MERGE (nation:Nation{name:'%s'}) MERGE (comp:Competition{name:'%s'}) " % (obj.nation, obj.name) +  
+               "SET comp+= " + str(comp_data) + " MERGE (comp) -[:BELONG_TO]-> "
+               "(nation)")
 
     def add_club(self, tx, obj):
-        tx.run("MERGE (nation:Nation{name:$n_name}) "
-               "MERGE (club:Club{name:$c_name}) SET club+= "
-               "{short_name:$short_name, en_name:$en_name} "
+        tx.run("MERGE (nation:Nation{name:'$n_name'}) "
+               "MERGE (club:Club{name:'$c_name'}) SET club+= "
+               "{short_name:'$short_name', en_name:'$en_name'} "
                "MERGE (club) -[:LOCATE_IN]-> (nation) "
-               " ".join(["MERGE (comp:Competition{name:%s}) MERGE (club) -[:JOIN_IN]-> (comp)" % c.name
-                         for c in obj.competitions]),
+               " ".join(["MERGE (comp:Competition{name:'%s'}) MERGE (club) -[:JOIN_IN]-> (comp)" % c.name
+                         for c in obj.competitions.all()]),
                n_name=obj.nation, c_name=obj.name)
 
     def add_nation_team(self, tx, obj):
@@ -31,7 +36,7 @@ class Command(BaseCommand):
                "{short_name:$short_name, en_name:$en_name} "
                "MERGE (nt) -[:TEAM_OF]-> (nation) "
                " ".join(["MERGE (comp:Competition{name:%s}) MERGE (nt) -[:JOIN_IN]-> (comp)" % c.name
-                         for c in obj.competitions]),
+                         for c in obj.competitions.all()]),
                n_name=obj.nation, c_name=obj.name)
 
     def add_player(self, tx, obj):
