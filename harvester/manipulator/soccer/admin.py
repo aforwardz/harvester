@@ -14,9 +14,9 @@ class AwardAdmin(admin.ModelAdmin):
 
 
 class CompetitionAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'nation', 'season']
+    list_display = ['id', 'name', 'nation']
     ordering = ('-create_time',)
-    search_fields = ('name', 'season')
+    search_fields = ('name',)
 
     class Meta:
         model = models.Competition
