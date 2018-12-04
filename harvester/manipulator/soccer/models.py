@@ -81,13 +81,6 @@ class Competition(models.Model):
         blank=True
     )
 
-    season = models.CharField(
-        verbose_name='赛季',
-        max_length=30,
-        blank=True,
-        null=True
-    )
-
     def __str__(self):
         return self.name
 
@@ -409,6 +402,13 @@ class CompetitionData(models.Model):
     update_time = models.DateTimeField(
         verbose_name='更新时间',
         auto_now=True
+    )
+
+    season = models.CharField(
+        verbose_name='赛季',
+        max_length=30,
+        blank=True,
+        null=True
     )
 
     def __str__(self):

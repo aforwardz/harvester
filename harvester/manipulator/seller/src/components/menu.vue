@@ -20,14 +20,16 @@
           <el-menu-item index="1-3">
             <router-link to="/ner" class="route-link" tag="div" exact-active-class="menu-active">实体识别</router-link>
           </el-menu-item>
+          <el-menu-item index="1-4">
+            <router-link to="/graph" class="route-link" tag="div" exact-active-class="menu-active">图谱</router-link>
+          </el-menu-item>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">工具</template>
           <el-menu-item index="2-1">
             <router-link to="/label" class="route-link" tag="div" exact-active-class="menu-active">标注</router-link>
           </el-menu-item>
-          <el-menu-item index="2-2" disabled>足球图谱</el-menu-item>
-          <el-menu-item index="2-3" disabled>刷脸</el-menu-item>
+          <el-menu-item index="2-2" disabled>刷脸</el-menu-item>
         </el-submenu>
         <el-menu-item index="3" disabled>学习</el-menu-item>
         <el-menu-item index="4" disabled>扯淡</el-menu-item>
@@ -93,7 +95,7 @@
     width: 80%;
     display: flex;
     justify-content: space-around;
-    opacity: 0.9;
+    opacity: 0.95;
     border-right: solid 1px rgb(230, 230, 230);
     position: absolute;
   }

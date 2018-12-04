@@ -1,20 +1,14 @@
 <template>
   <Manipulator name="Manipulator">
-    <div class="cut-container">
+    <div class="label-container">
       <h1>标注</h1>
-      <!--<p>-->
-        <!--Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy-->
-        <!--eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam-->
-        <!--voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet-->
-        <!--clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit-->
-        <!--amet.-->
-      <!--</p>-->
-      <div class="content-input-container">
-        <input class="input-container"/>
-        <div class="cut-button-container">
-          <button class="submit">分词</button>
-        </div>
-      </div>
+      <p>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+        clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+        amet.
+      </p>
       <h2>Amet sit</h2>
       <p>
         Eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
@@ -39,11 +33,11 @@ export default {
 
 <style>
   h1 {
-    /*margin: 10px 10px;*/
+    margin: 16px 0 0 10px;
   }
-  .cut-container {
+  .label-container {
     width: 90%;
-    margin: auto;
+    margin: 6rem auto 0 auto;
     height: 100%;
     background-color: rgba(255, 255, 255, .8);
     border-radius: 20px;

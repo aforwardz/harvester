@@ -10,14 +10,14 @@
       </div>
     </div>
     <div class="result-container" v-show="sentence_list.length > 0" v-loading="loading">
-        <div class="sentence-item" v-for="(word_list, index) in sentence_list">
-          <div class="sentence-index">{{index + 1}}.</div>
-          <div class="word-item" v-for="word in word_list">
-            <span :class="'word ' + word.pos">{{word.word}}</span>
-            <span class="pos">{{word.pos_n}}</span>
-          </div>
+      <div class="sentence-item" v-for="(word_list, index) in sentence_list">
+        <div class="sentence-index">{{index + 1}}.</div>
+        <div class="word-item" v-for="word in word_list">
+          <span :class="'word ' + word.pos">{{word.word}}</span>
+          <span class="pos">{{word.pos_n}}</span>
         </div>
       </div>
+    </div>
   </Manipulator>
 </template>
 
@@ -57,13 +57,12 @@ export default {
   }
   .cut-container {
     width: 90%;
-    margin: auto;
+    margin: 6rem auto 0 auto;
     height: 100%;
     background-color: rgba(255, 255, 255, .8);
     border-radius: 20px;
   }
   .content-input-container {
-    margin-top: 6rem;
     height: 80px;
     display: flex;
   }

@@ -5,6 +5,7 @@ import Label from '@/components/label'
 import Keyword from '@/components/keyword'
 import Classify from '@/components/classify'
 import Ner from '@/components/ner'
+import Graph from '@/components/graph'
 
 Vue.use(Router)
 
@@ -36,5 +37,10 @@ export default new Router({
       name: 'Ner',
       component: Ner
     },
+    {
+      path: '/graph',
+      name: 'Graph',
+      component: Graph
+    }
   ]
 })
