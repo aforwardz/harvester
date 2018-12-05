@@ -11,72 +11,72 @@ class Command(BaseCommand):
         self.session = driver.session()
 
     def add_competition(self, tx, obj):
-        comp_data = ""
+        comp_data = []
         if obj.short_name:
-            comp_data += " short_name:'%s' " % obj.short_name
+            comp_data.append(" short_name:'%s'" % obj.short_name)
         if obj.en_name:
-            comp_data += " en_name:'%s' " % obj.en_name
+            comp_data.append(" en_name:'%s'" % obj.en_name)
         tx.run("MERGE (nation:Nation{name:'%s'}) MERGE (comp:Competition{name:'%s'}) " % (obj.nation, obj.name) +
-               "SET comp+= {" + comp_data + "} MERGE (comp) -[:BELONG_TO]-> "
+               "SET comp+= {" + ",".join(comp_data) + "} MERGE (comp) -[:BELONG_TO]-> "
                "(nation)")
 
     def add_club(self, tx, obj):
-        club_data = ""
+        club_data = []
         if obj.short_name:
-            club_data += " short_name:'%s'" % obj.short_name
+            club_data.append(" short_name:'%s'" % obj.short_name)
         if obj.en_name:
-            club_data += " en_name:'%s'" % obj.en_name
+            club_data.append(" en_name:'%s'" % obj.en_name)
         tx.run("MERGE (nation:Nation{name:'%s'}) " % obj.nation +
                "MERGE (club:Club{name:'%s'}) " % obj.name
-               + ("SET club+= {" + club_data + "}") if club_data else "" +
+               + ("SET club+= {" + ",".join(club_data) + "}") if club_data else "" +
                " MERGE (club) -[:LOCATE_IN]-> (nation) "
                " ".join(["MERGE (comp:Competition{name:'%s'}) MERGE (club) -[:JOIN_IN]-> (comp)" % c.name
                          for c in obj.competitions.all()]))
 
     def add_nation_team(self, tx, obj):
-        nt_data = ""
+        nt_data = []
         if obj.short_name:
-            nt_data += " short_name:'%s' " % obj.short_name
+            nt_data.append(" short_name:'%s'" % obj.short_name)
         if obj.en_name:
-            nt_data += " en_name:'%s' " % obj.en_name
+            nt_data.append(" en_name:'%s'" % obj.en_name)
         tx.run("MERGE (nation:Nation{name:'%s'}) " % obj.nation +
                "MERGE (nt:NationTeam{name:'%s'}) " % obj.name
-               + ("SET club+= {" + nt_data + "}") if nt_data else "" +
+               + ("SET club+= {" + ",".join(nt_data) + "}") if nt_data else "" +
                " MERGE (nt) -[:TEAM_OF]-> (nation) "
                " ".join(["MERGE (comp:Competition{name:'%s'}) MERGE (nt) -[:JOIN_IN]-> (comp)" % c.name
                          for c in obj.competitions.all()]))
 
     def add_player(self, tx, obj):
-        player_data = ""
+        player_data = []
         if obj.alias:
-            player_data += "alias:%s " % str(obj.alias)
+            player_data.append("alias:%s" % str(obj.alias))
         if obj.en_name:
-            player_data += " en_name:'%s' " % obj.en_name
+            player_data.append(" en_name:'%s'" % obj.en_name)
         if obj.nick_name:
-            player_data += " nick_name:'%s' " % obj.nick_name
+            player_data.append(" nick_name:'%s'" % obj.nick_name)
         if obj.gender:
-            player_data += " gender:'%s' " % obj.get_gender_display()
+            player_data.append(" gender:'%s'" % obj.get_gender_display())
         if obj.height:
-            player_data += " height:%d " % obj.height
+            player_data.append(" height:%d" % obj.height)
         if obj.birth:
-            player_data += " birth:'%s' " % obj.birth.strftime('%Y-%m-%d')
+            player_data.append(" birth:'%s'" % obj.birth.strftime('%Y-%m-%d'))
         if obj.age:
-            player_data += " age:%d " % obj.age
+            player_data.append(" age:%d" % obj.age)
         if obj.foot:
-            player_data += " foot:'%s' " % obj.foot
+            player_data.append(" foot:'%s'" % obj.foot)
         if obj.field:
-            player_data += " field:'%s' " % obj.field
+            player_data.append(" field:'%s'" % obj.field)
         if obj.positions:
-            player_data += " positions:%s " % obj.positions
+            player_data.append(" positions:%s" % obj.positions)
         if obj.number:
-            player_data += " number:%d " % obj.number
+            player_data.append(" number:%d" % obj.number)
         if obj.price:
-            player_data += " price:%d " % obj.price
+            player_data.append(" price:%d" % obj.price)
         if obj.joined:
-            player_data += " joined:'%s' " % obj.joined.strftime('%Y-%m-%d')
+            player_data.append(" joined:'%s'" % obj.joined.strftime('%Y-%m-%d'))
         if obj.contract_util:
-            player_data += " contract_util:'%s' " % obj.contract_util.strftime('%Y-%m-%d')
-        cypher = "MERGE (pl:Player{name:'%s'}) " % obj.name + ("SET pl+={" + player_data + "}") if player_data else ""
+            player_data.append(" contract_util:'%s' " % obj.contract_util.strftime('%Y-%m-%d'))
+        cypher = "MERGE (pl:Player{name:'%s'}) " % obj.name + ("SET pl+={" + ",".join(player_data) + "}") if player_data else ""
         if obj.nationality:
             cypher += " MERGE (nation:Nation{name:'%s'}) MERGE (pl) -[:BORN_IN]-> (nation) " % obj.nationality
         if obj.club:
@@ -86,22 +86,22 @@ class Command(BaseCommand):
         tx.run(cypher)
 
     def add_coach(self, tx, obj):
-        coach_data = ""
+        coach_data = []
         if obj.alias:
-            coach_data += "alias:%s " % str(obj.alias)
+            coach_data.append("alias:%s" % str(obj.alias))
         if obj.en_name:
-            coach_data += " en_name:'%s' " % obj.en_name
+            coach_data.append(" en_name:'%s'" % obj.en_name)
         if obj.nick_name:
-            coach_data += " nick_name:'%s' " % obj.nick_name
+            coach_data.append(" nick_name:'%s'" % obj.nick_name)
         if obj.gender:
-            coach_data += " gender:'%s' " % obj.get_gender_display()
+            coach_data.append(" gender:'%s'" % obj.get_gender_display())
         if obj.height:
-            coach_data += " height:%d " % obj.height
+            coach_data.append(" height:%d" % obj.height)
         if obj.birth:
-            coach_data += " birth:'%s' " % obj.birth.strftime('%Y-%m-%d')
+            coach_data.append(" birth:'%s'" % obj.birth.strftime('%Y-%m-%d'))
         if obj.age:
-            coach_data += " age:%d " % obj.age
-        cypher = "MERGE (coach:Coach{name:'%s'}) " % obj.name + ("SET coach+={" + coach_data + "}") if coach_data else ""
+            coach_data.append(" age:%d" % obj.age)
+        cypher = "MERGE (coach:Coach{name:'%s'}) " % obj.name + ("SET coach+={" + ",".join(coach_data) + "}") if coach_data else ""
         if obj.nationality:
             cypher += " MERGE (nation:Nation{name:'%s'}) MERGE (coach) -[:BORN_IN]-> (nation) " % obj.nationality
         if obj.club:
