@@ -48,6 +48,8 @@ class Command(BaseCommand):
 
     def add_player(self, tx, obj):
         player_data = []
+        if obj.name:
+            player_data.append("name:'%s'" % str(obj.name))
         if obj.alias:
             player_data.append("alias:%s" % str(obj.alias))
         if obj.en_name:
@@ -76,7 +78,7 @@ class Command(BaseCommand):
             player_data.append(" joined:'%s'" % obj.joined.strftime('%Y-%m-%d'))
         if obj.contract_util:
             player_data.append(" contract_util:'%s' " % obj.contract_util.strftime('%Y-%m-%d'))
-        cypher = "MERGE (pl:Player{name:'%s', birth:'%s'}) " % (obj.name, obj.birth.strftime('%Y-%m-%d') if obj.birth else "") + \
+        cypher = "MERGE (pl:Player{id:%d}) " % obj.id + \
                  ("SET pl+={" + ",".join(player_data) + "}") if player_data else ""
         if obj.nationality:
             cypher += " MERGE (nation:Nation{name:'%s'}) MERGE (pl) -[:BORN_IN]-> (nation) " % obj.nationality
@@ -88,6 +90,8 @@ class Command(BaseCommand):
 
     def add_coach(self, tx, obj):
         coach_data = []
+        if obj.name:
+            coach_data.append("name:'%s'" % str(obj.name))
         if obj.alias:
             coach_data.append("alias:%s" % str(obj.alias))
         if obj.en_name:
@@ -102,7 +106,7 @@ class Command(BaseCommand):
             coach_data.append(" birth:'%s'" % obj.birth.strftime('%Y-%m-%d'))
         if obj.age:
             coach_data.append(" age:%d" % obj.age)
-        cypher = "MERGE (coach:Coach{name:'%s', birth:'%s'}) " % (obj.name, obj.birth.strftime('%Y-%m-%d') if obj.birth else "") + \
+        cypher = "MERGE (coach:Coach{id:%d}) " % obj.id + \
                  ("SET coach+={" + ",".join(coach_data) + "}") if coach_data else ""
         if obj.nationality:
             cypher += " MERGE (nation:Nation{name:'%s'}) MERGE (coach) -[:BORN_IN]-> (nation) " % obj.nationality
@@ -144,7 +148,7 @@ class Command(BaseCommand):
             print('IMPORT PLAYER %s' % q.name)
             self.session.write_transaction(self.add_player, q)
 
-        for q in queryset_iterator(coach_qs):
-            print('IMPORT COACH %s' % q.name)
-            self.session.write_transaction(self.add_coach, q)
+        # for q in queryset_iterator(coach_qs):
+        #     print('IMPORT COACH %s' % q.name)
+        #     self.session.write_transaction(self.add_coach, q)
 
