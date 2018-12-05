@@ -26,12 +26,12 @@ class Command(BaseCommand):
             club_data += " short_name:'%s'" % obj.short_name
         if obj.en_name:
             club_data += " en_name:'%s'" % obj.en_name
-        tx.run("MERGE (nation:Nation{name:'%s'}) "
-               "MERGE (club:Club{name:'%s'}) SET club+= {"
+        tx.run("MERGE (nation:Nation{name:'%s'}) " % obj.nation +
+               "MERGE (club:Club{name:'%s'}) SET club+= {" % obj.name
                + club_data +
                "} MERGE (club) -[:LOCATE_IN]-> (nation) "
                " ".join(["MERGE (comp:Competition{name:'%s'}) MERGE (club) -[:JOIN_IN]-> (comp)" % c.name
-                         for c in obj.competitions.all()]) % (obj.nation, obj.name))
+                         for c in obj.competitions.all()]))
 
     def add_nation_team(self, tx, obj):
         nt_data = ""
@@ -39,12 +39,12 @@ class Command(BaseCommand):
             nt_data += " short_name:'%s' " % obj.short_name
         if obj.en_name:
             nt_data += " en_name:'%s' " % obj.en_name
-        tx.run("MERGE (nation:Nation{name:'%s'}) "
-               "MERGE (nt:NationTeam{name:'%s'}) SET nt+= {"
+        tx.run("MERGE (nation:Nation{name:'%s'}) " % obj.nation +
+               "MERGE (nt:NationTeam{name:'%s'}) SET nt+= {" % obj.name
                + nt_data +
                "} MERGE (nt) -[:TEAM_OF]-> (nation) "
                " ".join(["MERGE (comp:Competition{name:'%s'}) MERGE (nt) -[:JOIN_IN]-> (comp)" % c.name
-                         for c in obj.competitions.all()]) % (obj.nation, obj.name))
+                         for c in obj.competitions.all()]))
 
     def add_player(self, tx, obj):
         player_data = ""
