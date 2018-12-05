@@ -51,9 +51,9 @@ class Command(BaseCommand):
         if obj.alias:
             player_data.append("alias:%s" % str(obj.alias))
         if obj.en_name:
-            player_data.append(" en_name:'%s'" % obj.en_name.replace("'", "-"))
+            player_data.append(" en_name:'%s'" % obj.en_name)
         if obj.nick_name:
-            player_data.append(" nick_name:'%s'" % obj.nick_name.replace("'", "-"))
+            player_data.append(" nick_name:%s" % obj.nick_name)
         if obj.gender:
             player_data.append(" gender:'%s'" % obj.get_gender_display())
         if obj.height:
@@ -76,7 +76,7 @@ class Command(BaseCommand):
             player_data.append(" joined:'%s'" % obj.joined.strftime('%Y-%m-%d'))
         if obj.contract_util:
             player_data.append(" contract_util:'%s' " % obj.contract_util.strftime('%Y-%m-%d'))
-        cypher = "MERGE (pl:Player{name:'%s'}) " % obj.name.replace("'", "-") + \
+        cypher = "MERGE (pl:Player{name:'%s', birth:'%s'}) " % (obj.name, obj.birth.strftime('%Y-%m-%d')) + \
                  ("SET pl+={" + ",".join(player_data) + "}") if player_data else ""
         if obj.nationality:
             cypher += " MERGE (nation:Nation{name:'%s'}) MERGE (pl) -[:BORN_IN]-> (nation) " % obj.nationality
@@ -91,9 +91,9 @@ class Command(BaseCommand):
         if obj.alias:
             coach_data.append("alias:%s" % str(obj.alias))
         if obj.en_name:
-            coach_data.append(" en_name:'%s'" % obj.en_name.replace("'", "-"))
+            coach_data.append(" en_name:'%s'" % obj.en_name)
         if obj.nick_name:
-            coach_data.append(" nick_name:'%s'" % obj.nick_name.replace("'", "-"))
+            coach_data.append(" nick_name:%s" % obj.nick_name)
         if obj.gender:
             coach_data.append(" gender:'%s'" % obj.get_gender_display())
         if obj.height:
@@ -102,7 +102,7 @@ class Command(BaseCommand):
             coach_data.append(" birth:'%s'" % obj.birth.strftime('%Y-%m-%d'))
         if obj.age:
             coach_data.append(" age:%d" % obj.age)
-        cypher = "MERGE (coach:Coach{name:'%s'}) " % obj.name.replace("'", "-") + \
+        cypher = "MERGE (coach:Coach{name:'%s', birth:'%s'}) " % (obj.name, obj.birth.strftime('%Y-%m-%d')) + \
                  ("SET coach+={" + ",".join(coach_data) + "}") if coach_data else ""
         if obj.nationality:
             cypher += " MERGE (nation:Nation{name:'%s'}) MERGE (coach) -[:BORN_IN]-> (nation) " % obj.nationality

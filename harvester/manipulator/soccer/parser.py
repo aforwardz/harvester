@@ -54,7 +54,7 @@ def parse(top_path):
                         content = content[0].replace('\r', '').replace('\n', '').replace('\t', '').strip()
                         # print(t, content)
                         if '英文名' in t:
-                            en_name = content or ''
+                            en_name = content.replace("'", "-") or ''
                         if '场上位置' in t and content != '-':
                             field = content.split('&nbsp')[0]
                             positions = re.findall(r'(\([^\)]+\))', content)
