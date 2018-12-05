@@ -78,11 +78,11 @@ class Command(BaseCommand):
             player_data += " contract_util:'%s' " % obj.contract_util.strftime('%Y-%m-%d')
         cypher = "MERGE (pl:Player{name:'%s'}) " % obj.name + ("SET pl+={" + player_data + "}") if player_data else ""
         if obj.nationality:
-            cypher += " MERGE (nation:Nation{name:'%s'}) MERGE (player) -[:BORN_IN]-> (nation) " % obj.nationality
+            cypher += " MERGE (nation:Nation{name:'%s'}) MERGE (pl) -[:BORN_IN]-> (nation) " % obj.nationality
         if obj.club:
-            cypher += " MERGE (club:Club{name:'%s'}) MERGE (player) -[:PLAY_FOR]-> (club) " % obj.club.name
+            cypher += " MERGE (club:Club{name:'%s'}) MERGE (pl) -[:PLAY_FOR]-> (club) " % obj.club.name
         if obj.nation_team:
-            cypher += " MERGE (nt:NationTeam{name:'%s'}) MERGE (player) -[:PLAY_FOR]-> (nt) " % obj.nation_team.name
+            cypher += " MERGE (nt:NationTeam{name:'%s'}) MERGE (pl) -[:PLAY_FOR]-> (nt) " % obj.nation_team.name
         tx.run(cypher)
 
     def add_coach(self, tx, obj):
