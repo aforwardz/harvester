@@ -26,12 +26,14 @@ class Command(BaseCommand):
             club_data.append(" short_name:'%s'" % obj.short_name)
         if obj.en_name:
             club_data.append(" en_name:'%s'" % obj.en_name)
-        tx.run("MERGE (nation:Nation{name:'%s'}) " % obj.nation +
-               "MERGE (club:Club{name:'%s'}) " % obj.name
-               + ("SET club+= {" + ",".join(club_data) + "}") if club_data else "" +
-               " MERGE (club) -[:LOCATE_IN]-> (nation) "
-               " ".join(["MERGE (comp:Competition{name:'%s'}) MERGE (club) -[:JOIN_IN]-> (comp)" % c.name
-                         for c in obj.competitions.all()]))
+        cypher = "MERGE (nation:Nation{name:'%s'}) " % obj.nation + \
+                 "MERGE (club:Club{name:'%s'}) " % obj.name + \
+                 ("SET club+= {" + ",".join(club_data) + "}") if club_data else "" + \
+                 " MERGE (club) -[:LOCATE_IN]-> (nation) " + \
+                 " ".join(["MERGE (comp:Competition{name:'%s'}) MERGE (club) -[:JOIN_IN]-> (comp)" % c.name
+                           for c in obj.competitions.all()])
+        print(cypher)
+        tx.run(cypher)
 
     def add_nation_team(self, tx, obj):
         nt_data = []
@@ -39,12 +41,14 @@ class Command(BaseCommand):
             nt_data.append(" short_name:'%s'" % obj.short_name)
         if obj.en_name:
             nt_data.append(" en_name:'%s'" % obj.en_name)
-        tx.run("MERGE (nation:Nation{name:'%s'}) " % obj.nation +
-               "MERGE (nt:NationTeam{name:'%s'}) " % obj.name
-               + ("SET club+= {" + ",".join(nt_data) + "}") if nt_data else "" +
-               " MERGE (nt) -[:TEAM_OF]-> (nation) "
-               " ".join(["MERGE (comp:Competition{name:'%s'}) MERGE (nt) -[:JOIN_IN]-> (comp)" % c.name
-                         for c in obj.competitions.all()]))
+        cypher = "MERGE (nation:Nation{name:'%s'}) " % obj.nation + \
+                 "MERGE (nt:NationTeam{name:'%s'}) " % obj.name + \
+                 ("SET club+= {" + ",".join(nt_data) + "}") if nt_data else "" + \
+                 "MERGE (nt) -[:TEAM_OF]-> (nation) " + \
+                 " ".join(["MERGE (comp:Competition{name:'%s'}) MERGE (nt) -[:JOIN_IN]-> (comp)" % c.name
+                           for c in obj.competitions.all()])
+        print(cypher)
+        tx.run(cypher)
 
     def add_player(self, tx, obj):
         player_data = []
