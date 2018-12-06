@@ -28,7 +28,7 @@ class Command(BaseCommand):
             club_data.append(" en_name:'%s'" % obj.en_name)
         cypher = "MERGE (nation:Nation{name:'%s'}) " % obj.nation + \
                  "MERGE (club:Club{name:'%s'}) " % obj.name + \
-                 ("SET club+= {" + ",".join(club_data) + "}") if club_data else "" + \
+                 (("SET club+= {" + ",".join(club_data) + "}") if club_data else "") + \
                  " MERGE (club) -[:LOCATE_IN]-> (nation) " + \
                  " ".join(["MERGE (comp:Competition{name:'%s'}) MERGE (club) -[:JOIN_IN]-> (comp)" % c.name
                            for c in obj.competitions.all()])
@@ -43,7 +43,7 @@ class Command(BaseCommand):
             nt_data.append(" en_name:'%s'" % obj.en_name)
         cypher = "MERGE (nation:Nation{name:'%s'}) " % obj.nation + \
                  "MERGE (nt:NationTeam{name:'%s'}) " % obj.name + \
-                 ("SET club+= {" + ",".join(nt_data) + "}") if nt_data else "" + \
+                 (("SET club+= {" + ",".join(nt_data) + "}") if nt_data else "") + \
                  "MERGE (nt) -[:TEAM_OF]-> (nation) " + \
                  " ".join(["MERGE (comp:Competition{name:'%s'}) MERGE (nt) -[:JOIN_IN]-> (comp)" % c.name
                            for c in obj.competitions.all()])
