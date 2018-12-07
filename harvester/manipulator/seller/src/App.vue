@@ -10,9 +10,25 @@ export default {
   name: 'app',
   data() {
     return {
-      menu: 'div',
+      menu: 'div'
     };
   },
+  created: function () {
+      var lastLogined = this.$session.get('lastLogined');
+      if (!lastLogined) {
+        this.$router.push({
+          path: '/login'
+        })
+      }
+      else if (new Date().getTime() - lastLogined > 1000 * 60 * 60) {
+        this.$router.push({
+          path: '/login'
+        })
+      }
+      else {
+        this.$store.state.LoginState = true
+      }
+    }
 }
 </script>
 

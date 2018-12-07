@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Login from '@/components/login'
 import Cut from '@/components/cut'
 import Label from '@/components/label'
 import Keyword from '@/components/keyword'
@@ -16,6 +17,11 @@ export default new Router({
       path: '/',
       name: 'Cut',
       component: Cut
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     },
     {
       path: '/label',
