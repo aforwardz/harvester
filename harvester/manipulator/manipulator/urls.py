@@ -14,11 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path, include
 admin.site.site_header = '「Harvester」'
+
+api_patterns = [
+    path('api/account/', include('account.api.urls')),
+]
 
 urlpatterns = [
     path(r'jet/', include(('jet.urls', 'jet'), 'jet')),
     path('admin/', admin.site.urls),
     path('nlp/', include('nlp.urls'))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
+  + static(settings.WEB_URL, document_root=settings.WEB_ROOT) \
+  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
+  + api_patterns

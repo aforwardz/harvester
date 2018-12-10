@@ -4,9 +4,7 @@ import json
 import redis
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView, UpdateAPIView
 from rest_framework.exceptions import PermissionDenied, AuthenticationFailed
 from rest_framework.authtoken.models import Token
 from django.core.exceptions import ObjectDoesNotExist

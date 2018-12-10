@@ -5,9 +5,9 @@ from account.models import Account
 
 
 class AccountAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'nickname', 'real_name', 'identity']
+    list_display = ['id', 'user', 'nickname', 'real_name']
     ordering = ('-create_time',)
-    list_filter = ('identity',)
+    list_filter = ('nickname',)
     search_fields = ('nickname', 'real_name')
 
     class Meta:
