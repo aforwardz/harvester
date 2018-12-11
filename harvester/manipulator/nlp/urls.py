@@ -9,4 +9,7 @@ urlpatterns = [
     re_path(r'^ner/$',
             views.ContentNerView.as_view(),
             name='content_ner_view'),
+    re_path(r'^label/$',
+            views.ContentLabelView.as_view(),
+            name='content_label_view'),
 ]
