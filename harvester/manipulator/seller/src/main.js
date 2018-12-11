@@ -30,11 +30,11 @@ Vue.http.interceptors.push((request, next) => {
 
 // API
 if (process.env.NODE_ENV === 'development'){
-  Vue.prototype.API_BASE = 'http://127.0.0.1:8000/';
+  Vue.prototype.API_BASE = 'http://127.0.0.1:8000/api/';
   Vue.prototype.ADMIN_BASE = 'http://127.0.0.1:8000/admin/'
 }
 else {
-  Vue.prototype.API_BASE = 'https://little-old-brother.cn/';
+  Vue.prototype.API_BASE = 'https://little-old-brother.cn/api/';
   Vue.prototype.ADMIN_BASE = 'https://little-old-brother.cn/admin/'
 }
 
