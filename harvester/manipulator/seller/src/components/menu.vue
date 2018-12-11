@@ -35,8 +35,8 @@
         <el-menu-item index="4" disabled>扯淡</el-menu-item>
       </el-menu>
       <div class="user">
-        <div class="user-info" v-if="user">{{user.name}}</div>
-        <div class="login" v-else>登录</div>
+        <div class="user-info" v-if="this.$store.state.LoginState">{{this.$session.get('userName')}}</div>
+        <div class="login" v-else @click="userLogin">登录</div>
       </div>
     </nav>
     <main class="manipulator main">
@@ -59,14 +59,13 @@
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
+      },
+      userLogin() {
+        this.$router.push({
+          path: '/login'
+        })
       }
-    },
-    created() {
-      // Simulate fetching user data.
-      setTimeout(() => {
-        this.user = { name: 'Aforwardz' };
-      }, 200);
-  },
+    }
   };
 </script>
 

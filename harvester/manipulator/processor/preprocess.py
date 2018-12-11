@@ -1,8 +1,12 @@
+import os
 import jieba
 from jieba.posseg import cut
 import redis
 
-# jieba.load_userdict('../dictionary/userdict.txt')
+cwd = os.path.dirname(os.path.abspath(__file__))
+user_dict = os.path.abspath(os.path.join(cwd, '..', 'nlp/corpus/user_dict.txt'))
+if os.path.isfile(user_dict):
+    jieba.load_userdict(user_dict)
 rclient = redis.Redis(db=0)
 
 
