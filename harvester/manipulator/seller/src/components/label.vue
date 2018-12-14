@@ -10,13 +10,13 @@
       </div>
     </div>
     <div class="result-container" v-show="label_list.length > 0" v-loading="loading">
-      <div class="raw-item" v-for="word_list in label_list">
-        <div class="raw-word-item" v-for="word in word_list">
-          <span class="raw-word">{{word.word}}</span>
-          <span class="pos">{{word.pos_n}}</span>
-        </div>
-      </div>
-      <div class="label-item" v-for="word_list in label_list">
+      <!--<div class="raw-item" v-for="word_list in label_list">-->
+        <!--<div class="raw-word-item" v-for="word in word_list">-->
+          <!--<span class="raw-word">{{word.word}}</span>-->
+          <!--<span class="pos">{{word.pos_n}}</span>-->
+        <!--</div>-->
+      <!--</div>-->
+      <div class="label-item" onselect="labelSelect()" v-for="word_list in label_list">
         <div class="label-word-item" v-for="(word, index) in word_list">
           <span :class="'ner-word ' + word.ner">{{word.word}}</span>
           <span class="ner">{{word.ner_n}}</span>
@@ -51,6 +51,9 @@ export default {
           this.loading = false;
         }
       )
+    },
+    labelSelect: function() {
+      console.log(document.selection)
     }
   }
 };
@@ -98,5 +101,35 @@ export default {
     flex-direction: column;
     background-color: rgba(255, 255, 255, .8);
     border-radius: 15px;
+  }
+  .result-container .label-item {
+    width: 95%;
+    display: flex;
+    margin: 10px auto;
+    flex-wrap: wrap;
+  }
+  .label-item .label-word-item {
+    height: 38px;
+    display: flex;
+    margin: 5px 1px;
+    flex-direction: column;
+    border: solid #aeaeae 0.5px;
+  }
+  .ner-word {
+    height: 22px;
+    text-align: center;
+    font-weight: 500;
+  }
+  .ner {
+    height: 16px;
+    padding: 0 1px;
+    font-size: 12px;
+    color: #f7faf5;
+    text-align: center;
+    background-color: #959595;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
   }
 </style>

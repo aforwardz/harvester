@@ -46,7 +46,7 @@ export default {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background: url('./assets/backgroud.jpg') center center no-repeat fixed;
+  /*background: url('./assets/backgroud.jpg') center center no-repeat fixed;*/
   background-size: cover;
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   z-index: -1;
