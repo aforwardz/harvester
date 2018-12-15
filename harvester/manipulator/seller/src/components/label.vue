@@ -1,21 +1,27 @@
 <template>
   <Manipulator name="Manipulator">
     <div class="label-container">
-      <h1>标注</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-        clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-        amet.
-      </p>
-      <h2>Amet sit</h2>
-      <p>
-        Eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-        clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-        amet.
-      </p>
+      <div class="label-input-container">
+        <h1>标注</h1>
+        <el-input v-model="content" class="input-container" type="textarea" placeholder="请输入内容"></el-input>
+        <div class="label-button-container">
+          <el-button class="submit" type="primary" @click="labelContent">走你</el-button>
+        </div>
+      </div>
+    </div>
+    <div class="result-container" v-show="label_list.length > 0" v-loading="loading">
+      <!--<div class="raw-item" v-for="word_list in label_list">-->
+        <!--<div class="raw-word-item" v-for="word in word_list">-->
+          <!--<span class="raw-word">{{word.word}}</span>-->
+          <!--<span class="pos">{{word.pos_n}}</span>-->
+        <!--</div>-->
+      <!--</div>-->
+      <div class="label-item" onselect="labelSelect()" v-for="word_list in label_list">
+        <div class="label-word-item" v-for="(word, index) in word_list">
+          <span :class="'ner-word ' + word.ner">{{word.word}}</span>
+          <span class="ner">{{word.ner_n}}</span>
+        </div>
+      </div>
     </div>
   </Manipulator>
 </template>
@@ -28,6 +34,28 @@ export default {
   components: {
     Manipulator,
   },
+  data() {
+    return {
+      loading: false,
+      content: '',
+      label_list: []
+    }
+  },
+  methods: {
+    labelContent: function() {
+      this.loading = true;
+      var data = {'content': this.content};
+      this.$http.post(this.NLP_BASE + 'label/', data).then(
+        (response) => {
+          this.label_list = response.body.data;
+          this.loading = false;
+        }
+      )
+    },
+    labelSelect: function() {
+      console.log(document.selection)
+    }
+  }
 };
 </script>
 
@@ -42,27 +70,66 @@ export default {
     background-color: rgba(255, 255, 255, .8);
     border-radius: 20px;
   }
-  .content-input-container {
-    margin-top: 5rem;
+  .label-input-container {
     height: 80px;
     display: flex;
   }
   .input-container {
-    height: 50%;
-    width: 60%;
-    margin: auto;
+    height: auto;
+    width: auto;
     border-radius: 10px;
   }
-  .cut-button-container {
+  .label-input-container .el-textarea {
+    width: 60%;
+    height: auto;
+  }
+  .label-input-container .label-button-container {
     width: 10%;
-    height: 40%;
+    height: auto;
     margin: auto;
   }
-  .submit {
-    width: 60%;
-    height: 100%;
+  .label-button-container .submit {
+    width: 100%;
     background-color: lightblue;
-    border-radius: 8px;
     color: hotpink;
+  }
+  .result-container {
+    margin: 3rem auto;
+    width: 90%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, .8);
+    border-radius: 15px;
+  }
+  .result-container .label-item {
+    width: 95%;
+    display: flex;
+    margin: 10px auto;
+    flex-wrap: wrap;
+  }
+  .label-item .label-word-item {
+    height: 38px;
+    display: flex;
+    margin: 5px 1px;
+    flex-direction: column;
+    border: solid #aeaeae 0.5px;
+  }
+  .ner-word {
+    height: 22px;
+    text-align: center;
+    font-weight: 500;
+  }
+  .ner {
+    height: 16px;
+    padding: 0 1px;
+    font-size: 12px;
+    color: #f7faf5;
+    text-align: center;
+    background-color: #959595;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
   }
 </style>

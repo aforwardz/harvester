@@ -40,7 +40,7 @@ export default {
     classifyContent: function() {
       this.loading = true;
       var data = {'content': this.content};
-      this.$http.post(this.API_BASE + 'nlp/cut/', data).then(
+      this.$http.post(this.NLP_BASE + 'cut/', data).then(
         (response) => {
           this.sentence_list = response.body.data;
           this.loading = false;

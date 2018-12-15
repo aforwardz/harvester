@@ -20,16 +20,16 @@
           <el-menu-item index="1-3">
             <router-link to="/ner" class="route-link" tag="div" exact-active-class="menu-active">实体识别</router-link>
           </el-menu-item>
-          <el-menu-item index="1-4">
-            <router-link to="/graph" class="route-link" tag="div" exact-active-class="menu-active">图谱</router-link>
-          </el-menu-item>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">工具</template>
           <el-menu-item index="2-1">
             <router-link to="/label" class="route-link" tag="div" exact-active-class="menu-active">标注</router-link>
           </el-menu-item>
-          <el-menu-item index="2-2" disabled>刷脸</el-menu-item>
+          <el-menu-item index="2-2">
+            <router-link to="/graph" class="route-link" tag="div" exact-active-class="menu-active">图谱</router-link>
+          </el-menu-item>
+          <el-menu-item index="2-3" disabled>刷脸</el-menu-item>
         </el-submenu>
         <el-menu-item index="3" disabled>学习</el-menu-item>
         <el-menu-item index="4" disabled>扯淡</el-menu-item>
@@ -80,7 +80,8 @@
     padding: 0;
     width: 100%;
     height: 100vh;
-    background: url('../assets/backgroud.jpg') center center no-repeat fixed;
+    /*background: url('../assets/backgroud.jpg') center center no-repeat fixed;*/
+    background: darkgray center center no-repeat fixed;
     background-size: cover;
     font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
     z-index: -1;

@@ -40,7 +40,7 @@ export default {
     cutContent: function() {
       this.loading = true;
       var data = {'content': this.content};
-      this.$http.post(this.API_BASE + 'nlp/cut/', data).then(
+      this.$http.post(this.NLP_BASE + 'cut/', data).then(
         (response) => {
           this.sentence_list = response.body.data;
           this.loading = false;
@@ -244,5 +244,9 @@ export default {
     background-color: #7d7d7d;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
   }
 </style>
