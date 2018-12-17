@@ -16,7 +16,7 @@
           <!--<span class="pos">{{word.pos_n}}</span>-->
         <!--</div>-->
       <!--</div>-->
-      <div class="label-item" onselect="labelSelect()" v-for="word_list in label_list">
+      <div class="label-item" onselect="labelSelect()" @mouseup="selected()" v-for="word_list in label_list">
         <div class="label-word-item" v-for="(word, index) in word_list">
           <span :class="'ner-word ' + word.ner">{{word.word}}</span>
           <span class="ner">{{word.ner_n}}</span>
@@ -53,6 +53,10 @@ export default {
       )
     },
     labelSelect: function() {
+      console.log(document.selection)
+    },
+    selected: function() {
+      console.log('selected')
       console.log(document.selection)
     }
   }
