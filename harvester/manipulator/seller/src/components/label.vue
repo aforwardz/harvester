@@ -3,6 +3,9 @@
     <div class="label-container">
       <div class="label-input-container">
         <h1>标注</h1>
+        <div class="label-create-container">
+          <el-button icon="el-icon-plus" @click="createLabelPro"></el-button>
+        </div>
         <el-input v-model="content" class="input-container" type="textarea" placeholder="请输入内容"></el-input>
         <div class="label-button-container">
           <el-button class="submit" type="primary" @click="labelContent">走你</el-button>
@@ -16,7 +19,7 @@
           <!--<span class="pos">{{word.pos_n}}</span>-->
         <!--</div>-->
       <!--</div>-->
-      <div class="label-item" onselect="labelSelect()" v-for="word_list in label_list">
+      <div class="label-item" onselect="labelSelect()" @mouseup="selected()" v-for="word_list in label_list">
         <div class="label-word-item" v-for="(word, index) in word_list">
           <span :class="'ner-word ' + word.ner">{{word.word}}</span>
           <span class="ner">{{word.ner_n}}</span>
@@ -42,6 +45,9 @@ export default {
     }
   },
   methods: {
+    createLabelPro: function() {
+
+    },
     labelContent: function() {
       this.loading = true;
       var data = {'content': this.content};
@@ -54,7 +60,23 @@ export default {
     },
     labelSelect: function() {
       console.log(document.selection)
+    },
+    selected: function() {
+      console.log('selected')
+      console.log(document.selection)
+    },
+    loadLabels: function() {
+
     }
+  },
+  created: function() {
+    var lastLogined = this.$session.get('lastLogined');
+    if (!lastLogined) {
+      this.$router.push({
+        path: '/login'
+      })
+    }
+    this.loadLabels()
   }
 };
 </script>

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from account.choices import IDENTITY
 
 # Create your models here.
 
@@ -27,6 +28,14 @@ class Account(models.Model):
         max_length=50,
         blank=True,
         default=''
+    )
+
+    identity = models.CharField(
+        verbose_name='身份',
+        max_length=20,
+        choices=IDENTITY,
+        blank=True,
+        default='normal'
     )
 
     def __str__(self):
