@@ -92,7 +92,8 @@ INSTALLED_APPS = [
     'account',
     'seed',
     'peeler',
-    'soccer'
+    'soccer',
+    'ner',
 ]
 
 MIDDLEWARE = [
