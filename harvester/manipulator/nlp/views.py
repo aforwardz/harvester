@@ -2,7 +2,11 @@ import json
 import jieba
 from jieba.posseg import cut
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from account.models import Account
+from ner.models import LabelProject, Label
+from ner import serializers
 from nlp.choices import JIEBA_POS_DICT
 
 
@@ -31,8 +35,38 @@ class ContentNerView(APIView):
         return Response({'data': result_2_list, 'status': 200})
 
 
+class LabelProjectRetrieveCreateView(APIView):
+    permission_classes = (IsAuthenticated,)
+    http_method_names = ('post',)
+
+    def post(self, request):
+        ac = Account.objects.get(user=request.user)
+        if not request.data.get('label_pro'):
+            return Response({'detail': '', 'status': 'ERROR'})
+        action = request.data.get('action')
+        if action == 'add':
+            if ac.identity == 'normal' and ac.label_pros.exists():
+                return Response({'detail': '', 'status': 'ERROR'})
+            label_pro, _ = LabelProject.objects.get_or_create(project=request.data.get('label_pro'), creator=ac)
+            label_pro.labels.clear()
+            for l in request.data.get('labels'):
+                label, _ = Label.object.get_or_create(**l)
+                label_pro.labels.add(label)
+            label_pro.save()
+            return Response({'detail': '', 'status': 'ERROR'})
+        elif action == 'delete':
+            ac.label_pros.filter(project=request.data.get('label_pro')).delete()
+            return Response({'detail': '', 'status': 'ERROR'})
+        else:
+            return Response({'detail': '', 'status': 'ERROR'})
+
+    def get(self, request):
+        ac = Account.objects.get(user=request.user)
+        return Response({'data': serializers.LabelProjectSerializer(ac.label_pros.all(), many=True)})
+
+
 class ContentLabelView(APIView):
-    authentication_classes = ()
+    permission_classes = (IsAuthenticated,)
     http_method_names = ('post',)
 
     def post(self, request):
