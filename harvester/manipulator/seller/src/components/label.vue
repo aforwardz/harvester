@@ -4,8 +4,28 @@
       <div class="label-input-container">
         <h1>标注</h1>
         <div class="label-create-container">
-          <el-button icon="el-icon-plus" @click="createLabelPro"></el-button>
+          <el-button icon="el-icon-plus" @click="newLabelProVisble=true">新增</el-button>
         </div>
+        <el-dialog title="新增标注" v-model="newLabelProVisble">
+            <el-form :model="newForm" ref="newForm" label-width="50px">
+              <el-form-item label="标注项目名称" prop="project">
+                <el-input v-model="newForm.project" auto-complete="off" style="width:70%;"></el-input>
+              </el-form-item>
+              <el-form-item v-for="(lab, index) in newForm.labels" :label="'标注' + index"
+                            :prop="'labels.' + index + '.name'">
+                <el-input v-model="lab.name" auto-complete="off" style="width:70%;"></el-input>
+                <el-input v-model="lab.color" auto-complete="off" style="width:70%;"></el-input>
+                <el-button @click.prevent="removeLabel(lab)">删除</el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-button @click="addLabel">新增标注</el-button>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button type="primary" @click="addLabelPro('newForm')">保 存</el-button>
+              <el-button @click="resetLabelPro('newForm')">取 消</el-button>
+            </div>
+          </el-dialog>
         <el-input v-model="content" class="input-container" type="textarea" placeholder="请输入内容"></el-input>
         <div class="label-button-container">
           <el-button class="submit" type="primary" @click="labelContent">走你</el-button>
@@ -41,12 +61,32 @@ export default {
     return {
       loading: false,
       content: '',
-      label_list: []
+      label_list: [],
+      newLabelProVisble: false,
+      newForm: {
+        'project': '',
+        'labels': []
+      }
     }
   },
   methods: {
-    createLabelPro: function() {
+    addLabel() {
+      this.newForm.labels.push({
+        name: '',
+        color: ''
+      });
+    },
+    removeLabel(lab) {
+      this.newForm.labels.push({
+        name: '',
+        color: ''
+      });
+    },
+    addLabelPro: function(form) {
 
+    },
+    resetLabelPro: function(form) {
+      this.newLabelProVisble = false;
     },
     labelContent: function() {
       this.loading = true;
