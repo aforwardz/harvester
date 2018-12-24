@@ -4,6 +4,7 @@ from jieba.posseg import cut
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.core.exceptions import ObjectDoesNotExist
 from account.models import Account
 from ner.models import LabelProject, Label
 from ner import serializers
@@ -61,8 +62,11 @@ class LabelProjectRetrieveCreateView(APIView):
             return Response({'detail': '', 'status': 'ERROR'})
 
     def get(self, request):
-        ac = Account.objects.get(user=request.user)
-        return Response({'data': serializers.LabelProjectSerializer(ac.label_pros.all(), many=True)})
+        try:
+            ac = Account.objects.get(user=request.user)
+            return Response({'data': serializers.LabelProjectSerializer(ac.label_pros.all(), many=True), 'status': 'OK'})
+        except ObjectDoesNotExist:
+            return Response({'data': {}, 'status': 'ERROR'})
 
 
 class ContentLabelView(APIView):

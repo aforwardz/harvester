@@ -31,7 +31,7 @@
         <div class="label-detail-container" v-else>
           <div class="label-pro" v-for="pro in label_pros">
             <div class="label-item" v-for="lab in pro.labels">
-              <span>{{lab.name}}</span>
+              <span v-bind:style="{backgroundColor: lab.color}">{{lab.name}}</span>
             </div>
           </div>
         </div>
@@ -90,8 +90,9 @@ export default {
       this.newForm.labels.splice(index, 1);
     },
     addLabelPro: function(form) {
-      console.log(form)
+      console.log(form);
       this.label_pros.push(form)
+      console.log(this.label_pros);
     },
     resetLabelPro: function() {
       this.newLabelProVisble = false;
