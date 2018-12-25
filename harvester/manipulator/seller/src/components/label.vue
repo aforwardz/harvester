@@ -23,7 +23,7 @@
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button type="primary" @click="addLabelPro(newForm)">保 存</el-button>
+              <el-button type="primary" @click="addLabelPro">保 存</el-button>
               <el-button @click="resetLabelPro">取 消</el-button>
             </div>
           </el-dialog>
@@ -74,8 +74,9 @@ export default {
       label_list: [],
       newLabelProVisble: false,
       newForm: {
+        'action': 'add',
         'project': '',
-        'labels': []
+        'labels': [{name: '', color:''}]
       },
     }
   },
@@ -89,10 +90,19 @@ export default {
     removeLabel(index) {
       this.newForm.labels.splice(index, 1);
     },
-    addLabelPro: function(form) {
-      console.log(form);
-      this.label_pros.push(form)
-      console.log(this.label_pros);
+    addLabelPro: function() {
+      console.log(this.newForm)
+      this.$http.post(this.NLP_BASE + 'label_pro/', this.newForm).then(
+        (response) => {
+          this.newLabelProVisble = false;
+          console.log(response.body);
+          this.label_pros = this.newForm.labels;
+          if (response.body.status === 'OK') {
+            this.label_pros = this.newForm.labels;
+            this.$message('创建成功')
+	  }
+	}
+      )
     },
     resetLabelPro: function() {
       this.newLabelProVisble = false;

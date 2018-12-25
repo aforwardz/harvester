@@ -37,27 +37,28 @@ class ContentNerView(APIView):
 
 
 class LabelProjectRetrieveCreateView(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = ()
     http_method_names = ('post',)
 
     def post(self, request):
         ac = Account.objects.get(user=request.user)
-        if not request.data.get('label_pro'):
+        if not request.data.get('project'):
             return Response({'detail': '', 'status': 'ERROR'})
         action = request.data.get('action')
         if action == 'add':
             if ac.identity == 'normal' and ac.label_pros.exists():
                 return Response({'detail': '', 'status': 'ERROR'})
-            label_pro, _ = LabelProject.objects.get_or_create(project=request.data.get('label_pro'), creator=ac)
+            label_pro, _ = LabelProject.objects.get_or_create(project=request.data.get('project'), creator=ac)
             label_pro.labels.clear()
+            print(request.data.get('labels'))
             for l in request.data.get('labels'):
-                label, _ = Label.object.get_or_create(**l)
+                label, _ = Label.objects.get_or_create(**l)
                 label_pro.labels.add(label)
             label_pro.save()
-            return Response({'detail': '', 'status': 'ERROR'})
+            return Response({'detail': '', 'status': 'OK'})
         elif action == 'delete':
-            ac.label_pros.filter(project=request.data.get('label_pro')).delete()
-            return Response({'detail': '', 'status': 'ERROR'})
+            ac.label_pros.filter(project=request.data.get('project')).delete()
+            return Response({'detail': '', 'status': 'OK'})
         else:
             return Response({'detail': '', 'status': 'ERROR'})
 

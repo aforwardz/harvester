@@ -57,7 +57,7 @@ class LabelProject(models.Model):
     )
 
     def __str__(self):
-        return self.creator.username + ' : ' + self.project
+        return self.creator.nickname + ' : ' + self.project
 
     class Meta:
         verbose_name = verbose_name_plural = '标注项目'
