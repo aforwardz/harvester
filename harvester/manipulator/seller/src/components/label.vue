@@ -29,10 +29,8 @@
           </el-dialog>
         </div>
         <div class="label-detail-container" v-else>
-          <div class="label-pro" v-for="pro in label_pros">
-            <div class="label-item" v-for="lab in pro.labels">
-              <span v-bind:style="{backgroundColor: lab.color}">{{lab.name}}</span>
-            </div>
+          <div class="label-item" v-for="lab in label_pros">
+            <span v-bind:style="{backgroundColor: lab.color}">{{lab.name}}</span>
           </div>
         </div>
         <el-input v-model="content" class="input-container" type="textarea" placeholder="请输入内容"></el-input>
@@ -70,7 +68,7 @@ export default {
     return {
       loading: false,
       content: '',
-      label_pros: [],
+      label_pros: [{'name': 'Player', 'color': '#FCA90E'}],
       label_list: [],
       newLabelProVisble: false,
       newForm: {
@@ -129,7 +127,7 @@ export default {
       console.log(document.selection)
     },
     loadLabels: function() {
-
+      console.log(this.label_pros)
     }
   },
   created: function() {
