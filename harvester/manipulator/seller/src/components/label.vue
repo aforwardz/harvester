@@ -68,7 +68,8 @@ export default {
     return {
       loading: false,
       content: '',
-      label_pros: [{'name': 'Player', 'color': '#FCA90E'}],
+      label_pros: [{'name': 'Player', 'color': '#FCA90E'}, {'name': 'Coach', 'color': '#FCA90E'},
+      {'name': 'Club', 'color': '#FCA90E'}, {'name': 'Nation', 'color': '#FCA90E'}],
       label_list: [],
       newLabelProVisble: false,
       newForm: {
@@ -95,11 +96,11 @@ export default {
           this.newLabelProVisble = false;
           console.log(response.body);
           this.label_pros = this.newForm.labels;
-          if (response.body.status === 'OK') {
+          if (response.status === 200 && response.body.status === 'OK') {
             this.label_pros = this.newForm.labels;
             this.$message('创建成功')
-	  }
-	}
+          }
+        }
       )
     },
     resetLabelPro: function() {
@@ -127,7 +128,16 @@ export default {
       console.log(document.selection)
     },
     loadLabels: function() {
-      console.log(this.label_pros)
+      console.log(this.label_pros);
+      this.$http.get(this.NLP_BASE + 'label_pro/').then(
+        (response) => {
+          console.log(response.body);
+          this.label_pros = this.newForm.labels;
+          if (response.status === 200 && response.body.status === 'OK') {
+            this.label_pros = response.body.data;
+          }
+        }
+      )
     }
   },
   created: function() {
@@ -167,8 +177,17 @@ export default {
     z-index: 0;
   }
   .label-detail-container {
+    width: 20%;
+    height: 80%;
     margin: auto;
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .label-item {
+    margin: 0 2px;
+  }
+  .label-item span {
+    padding: 0 2px;
   }
   .input-container {
     margin: auto;
@@ -177,7 +196,7 @@ export default {
     border-radius: 10px;
   }
   .label-input-container .el-textarea {
-    width: 60%;
+    width: 50%;
     height: auto;
   }
   .label-input-container .label-button-container {

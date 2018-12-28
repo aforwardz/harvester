@@ -65,9 +65,10 @@ class LabelProjectRetrieveCreateView(APIView):
     def get(self, request):
         try:
             ac = Account.objects.get(user=request.user)
-            return Response({'data': serializers.LabelProjectSerializer(ac.label_pros.all(), many=True), 'status': 'OK'})
+            return Response({'data': serializers.LabelProjectSerializer(ac.label_pros.all(), many=True),
+                             'status': 'OK'})
         except ObjectDoesNotExist:
-            return Response({'data': {}, 'status': 'ERROR'})
+            return Response({'data': [], 'status': 'ERROR'})
 
 
 class ContentLabelView(APIView):
