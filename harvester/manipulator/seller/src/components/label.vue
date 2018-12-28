@@ -3,8 +3,35 @@
     <div class="label-container">
       <div class="label-input-container">
         <h1>标注</h1>
-        <div class="label-create-container">
-          <el-button icon="el-icon-plus" @click="createLabelPro"></el-button>
+        <div class="label-create-container" v-if="label_pros.length === 0">
+          <el-button icon="el-icon-plus" @click="newLabelProVisble=true">新增</el-button>
+          <el-dialog title="新增标注" :visible.sync="newLabelProVisble">
+            <el-form :model="newForm" ref="newForm" label-width="25%">
+              <el-form-item label="标注项目名称" prop="project"
+                            :rules="{ required: true, message: '请输入标注项目名称(英文)', trigger: 'blur' }">
+                <el-input v-model="newForm.project" auto-complete="off" style="width:60%;"></el-input>
+              </el-form-item>
+              <el-form-item v-for="(lab, index) in newForm.labels" :label="'标注' + index"
+                            :rules = "[{ required: true, message: '请输入标注名称(英文)', trigger: 'blur'},
+                            {max: 10, message: '不超过10个字符', trigger: 'blur'}]" :prop="'labels.' + index + '.name'">
+                <el-input v-model="lab.name" auto-complete="off" style="width:30%;margin-right: 10px"></el-input>
+                <el-color-picker v-model="lab.color" style="margin-right: 10px"></el-color-picker>
+                <el-button @click.prevent="removeLabel(index)">删除</el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-button @click="addLabel">新增标注</el-button>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button type="primary" @click="addLabelPro">保 存</el-button>
+              <el-button @click="resetLabelPro">取 消</el-button>
+            </div>
+          </el-dialog>
+        </div>
+        <div class="label-detail-container" v-else>
+          <div class="label-item" v-for="lab in label_pros">
+            <span v-bind:style="{backgroundColor: lab.color}">{{lab.name}}</span>
+          </div>
         </div>
         <el-input v-model="content" class="input-container" type="textarea" placeholder="请输入内容"></el-input>
         <div class="label-button-container">
@@ -41,12 +68,47 @@ export default {
     return {
       loading: false,
       content: '',
-      label_list: []
+      label_pros: [{'name': 'Player', 'color': '#FCA90E'}, {'name': 'Coach', 'color': '#FCA90E'},
+      {'name': 'Club', 'color': '#FCA90E'}, {'name': 'Nation', 'color': '#FCA90E'}],
+      label_list: [],
+      newLabelProVisble: false,
+      newForm: {
+        'action': 'add',
+        'project': '',
+        'labels': [{name: '', color:''}]
+      },
     }
   },
   methods: {
-    createLabelPro: function() {
-
+    addLabel() {
+      this.newForm.labels.push({
+        name: '',
+        color: ''
+      });
+    },
+    removeLabel(index) {
+      this.newForm.labels.splice(index, 1);
+    },
+    addLabelPro: function() {
+      console.log(this.newForm)
+      this.$http.post(this.NLP_BASE + 'label_pro/', this.newForm).then(
+        (response) => {
+          this.newLabelProVisble = false;
+          console.log(response.body);
+          this.label_pros = this.newForm.labels;
+          if (response.status === 200 && response.body.status === 'OK') {
+            this.label_pros = this.newForm.labels;
+            this.$message('创建成功')
+          }
+        }
+      )
+    },
+    resetLabelPro: function() {
+      this.newLabelProVisble = false;
+      this.newForm = {
+        'project': '',
+        'labels': []
+      };
     },
     labelContent: function() {
       this.loading = true;
@@ -66,7 +128,16 @@ export default {
       console.log(document.selection)
     },
     loadLabels: function() {
-
+      console.log(this.label_pros);
+      this.$http.get(this.NLP_BASE + 'label_pro/').then(
+        (response) => {
+          console.log(response.body);
+          this.label_pros = this.newForm.labels;
+          if (response.status === 200 && response.body.status === 'OK') {
+            this.label_pros = response.body.data;
+          }
+        }
+      )
     }
   },
   created: function() {
@@ -96,13 +167,36 @@ export default {
     height: 80px;
     display: flex;
   }
+  .label-create-container {
+    margin: auto;
+  }
+  .label-create-container .el-form-item__content {
+    display: flex;
+  }
+  .el-checkbox.el-transfer-panel__item {
+    z-index: 0;
+  }
+  .label-detail-container {
+    width: 20%;
+    height: 80%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .label-item {
+    margin: 0 2px;
+  }
+  .label-item span {
+    padding: 0 2px;
+  }
   .input-container {
+    margin: auto;
     height: auto;
     width: auto;
     border-radius: 10px;
   }
   .label-input-container .el-textarea {
-    width: 60%;
+    width: 50%;
     height: auto;
   }
   .label-input-container .label-button-container {

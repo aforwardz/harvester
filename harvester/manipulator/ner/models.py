@@ -32,7 +32,7 @@ class Label(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.name = self.name.capitalize()
-        super(self, Label).save(force_insert=force_insert, force_update=force_update,
+        super(Label, self).save(force_insert=force_insert, force_update=force_update,
                                 using=using, update_fields=update_fields)
 
 
@@ -57,7 +57,7 @@ class LabelProject(models.Model):
     )
 
     def __str__(self):
-        return self.creator.username + ' : ' + self.project
+        return self.creator.nickname + ' : ' + self.project
 
     class Meta:
         verbose_name = verbose_name_plural = '标注项目'

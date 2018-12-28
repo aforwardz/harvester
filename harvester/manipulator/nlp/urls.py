@@ -12,4 +12,7 @@ urlpatterns = [
     re_path(r'^label/$',
             views.ContentLabelView.as_view(),
             name='content_label_view'),
+    re_path(r'^label_pro/$',
+            views.LabelProjectRetrieveCreateView.as_view(),
+            name='label_project_retrieve_create_view')
 ]
